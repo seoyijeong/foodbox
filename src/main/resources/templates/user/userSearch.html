@@ -1,0 +1,31 @@
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+
+<div class="search_container">
+
+    <!--  검색창   -->
+    <div class="search-box">
+        <div class="search_inner">
+            <input type="search" id="prod_name" name="prod_name" placeholder="검색어를 입력해주세요"
+                   size="40" autofocus  class="search__inp" onkeyup="enterkey()">
+            <button class="searchBtn" id="all_search_btn" onclick="prodSearchBtn(this)" data-mode="z">
+                <i class="fa fa-search fa-lg search__img"></i>
+            </button>
+        </div>
+    </div>
+    <!--  버튼 클릭시 해당 검색결과 목록을 보여줌  -->
+    <div class="btn__box">
+        <div class="btn__inner">
+            <button type="button" id="prod_keyword_btn"
+                    data-mode="p" class="prod_btn search_btn active" onclick="prodSearchBtn(this)">상품 <span id="prodspanCnt">&lbbrk;0&rbbrk;</span></button>
+            <button type="button" id="recipe_keyword_btn"
+                    data-mode="r" class="recipe_btn search_btn" onclick="prodSearchBtn(this)">레시피 <span id="recipeCnt">&lbbrk;0&rbbrk;</span></button>
+        </div>
+    </div>
+    <!-- 검색 결과 리스트 출력 부분 div -->
+    <div class="searchArea w-100 d-flex flex-column justify-content-center">
+
+    </div>
+</div>
+
+<!--<th:block th:replace="/user_inc/footer :: footerFragment"></th:block>-->
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>

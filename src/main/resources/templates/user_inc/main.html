@@ -1,0 +1,132 @@
+<th:block th:fragment="mainFragment">
+
+<div class="main_wrap">
+    <div class="main_inner">
+        <main>
+            <!-- main banner -->
+            <section class="section section_one">
+                <div class="img_box" th:style="'background: border-box no-repeat scroll center url('+ @{/imgs/main_banner.png} +');'"></div>
+            </section>
+            <!-- best menu -->
+            <section class="section section_two">
+                <div class="inner best_wrap ">
+                    <div class="best_inner">
+                        <div class="best_img_box" data-aos="fade-right">
+                                <img src="/imgs/best_img_5.png" alt="bestImage" class="best_img">
+                        </div>
+                        <div class="best_text_wrap">
+                            <div class="best_title">
+                                <div class="best_strong">
+                                    <Strong>Best</Strong> <br>
+                                </div>
+                                <p>
+                                    품질과 맛<br>둘 다 갖춘 우수한 상품
+                                </p>
+                            </div>
+                            <div class="best_text">
+                                <p>
+                                    많은 사랑을 받은 베스트 상품으로 더욱 완벽한 요리를 즐겨보세요
+                                </p>
+                            </div>
+                            <div class="best_link">
+                                <a href="/user/productPage?prod_spec=BEST" class="more_best">
+                                    Read more &nbsp;&nbsp;<i class="fa fa-arrow-right best_more_icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--    recipe menu        -->
+            <section class="section section_two">
+                <div class="inner new_wrap">
+                    <div class="new_inner">
+                        <div class="new_text_wrap">
+                            <div class="best_title">
+                                <div class="new_strong">
+                                    <Strong>Recipe</Strong> <br>
+                                </div>
+                                <p>
+                                    바쁜 일상 속 <br>
+                                    레시피와 함께하는 맛있는 식사시간
+                                </p>
+                            </div>
+                            <div class="new_text">
+                                <p>
+                                    바쁜 일상에서도 건강한 먹거리와 맛있는 요리를 즐겨보세요
+                                </p>
+                            </div>
+                            <div class="best_link">
+                                <a href="/user/recipe" class="more_best">
+                                    Read more &nbsp;&nbsp;<i class="fa fa-arrow-right new_more_icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="new_img_box" data-aos="fade-left">
+                                <img src="/imgs/recipe_img_2.png" alt="newImage" class="new_img">
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <!-- new menu  -->
+            <section class="section section_two">
+                <div class="inner best_wrap ">
+                    <div class="best_inner">
+                        <div class="best_img_box" data-aos="fade-right">
+                            <img src="/imgs/new_img_2.png" alt="recipeImage" class="best_img">
+                        </div>
+                        <div class="best_text_wrap">
+                            <div class="best_title">
+                                <div class="best_strong">
+                                    <Strong>New</Strong> <br>
+                                </div>
+                                <p>
+                                    신선한 재료로 만든 <br> 건강하고 맛있는 신상품 출시
+                                </p>
+                            </div>
+                            <div class="best_text">
+                                <p>
+                                    새로운 맛과 건강한 식생활을 시작할 수 있는 푸드박스의 새로운 상품을 만나보세요
+                                </p>
+                            </div>
+                            <div class="best_link">
+                                <a href="/user/productPage?prod_spec=NEW" class="more_new">
+                                    Read more &nbsp;&nbsp;<i class="fa fa-arrow-right best_more_icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- recommend menu slider  -->
+            <section class="section section_five">
+                <div class="inner new__innerbox">
+                    <!-- new menu slide title -->
+                    <div class="title__box">
+                        <div class="new_title">
+                            <h2>추천 상품</h2>
+                            <a href="/user/productPage" class="more-btn">더 보기 <i class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="new-slider__wrap">
+                        <th:block th:each=" productDTO : ${prodSlideList}">
+<!--                        <div class="new-menu">-->
+<!--                            <div class="img_test">-->
+<!--                                <a th:href="@{/user/productView(prod_code=${productDTO.prod_code})}">-->
+<!--                                    <img th:src="@{/image/}+${productDTO.prod_thumbnail}" alt="상품이미지" class="best__img01">-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <p th:text="${productDTO.prod_name}">상품명</p>-->
+<!--                            <p class="new__price" th:text="${productDTO.prod_price}">가격</p>-->
+<!--                        </div>-->
+                            <th:block th:replace="/user/productSlide"/>
+                        </th:block>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+
+</th:block>

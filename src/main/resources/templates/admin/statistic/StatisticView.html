@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+
+<div class="d-flex w-100 m-0 p-0" id="viewpart" style="height: 100vh;">
+    <div class="d-flex flex-column" style="margin:0; padding:0; width:250px; height:100%; border-left:3px; cursor:pointer;">
+        <div id="num_member" style="margin:0;">
+            <h6 onclick="openMember()"  style="margin:0; padding-left:30px; padding-top: 10px; padding-bottom:10px; background-color: #eeeeee; font-weight:bold;">
+                    회원 통계 ∨
+            </h6>
+        </div>
+        <h7 id="num_member_all" style="margin:0; cursor: pointer; display:none; padding-left:40px; padding-top: 5px; padding-bottom:5px;" onclick="numberOfMember()">
+                전체 회원통계
+        </h7>
+        <div id="sales">
+            <h6 onclick="openSales()" style="margin:0; padding-left:30px; padding-top: 10px; padding-bottom:10px; background-color: #eeeeee; font-weight:bold;">
+                    매출 통계 ∨
+            </h6>
+        </div>
+        <div id="total_sales">
+            <h7 id="total" style="margin:0; height:35px; cursor: pointer; display:none; padding-left:40px; padding-top: 5px; padding-bottom:5px; border-bottom:2px;" onclick="total_sales()">
+                전체 매출
+            </h7>
+        </div>
+        <div id="term_sales">
+            <h7 id="term" style="margin:0; height:35px; cursor: pointer; display:none; padding-left:40px; padding-top: 5px; padding-bottom:5px; border-bottom:2px;" onclick="term_sales()">
+                기간별 매출
+            </h7>
+        </div>
+        <div id="product_sales">
+                <h7 id="product" style="margin:0; height:35px; cursor: pointer; display:none; padding-left:40px; padding-top: 5px; padding-bottom:5px; border-bottom:2px;" onclick="productListOpen()">
+                상품별 매출
+                </h7>
+        </div>
+        <div id="product_list" style="margin:0; flex-grow:1; flex-direction: column; overflow: scroll; display:none;">
+            <th:block th:each="productDTO : ${productDTOList}">
+                <p th:text="'['+${productDTO.prod_code}+']'+${productDTO.prod_name}"
+                     class="w-100" style="margin:0; cursor:pointer; height:40px;padding-left:40px; padding-top: 5px; padding-bottom:5px; white-space: nowrap;" th:onclick="|product_sales(${productDTO.prod_code})|"></p>
+            </th:block>
+        </div>
+    </div>
+
+    <div id="graphView" class="w-100 h-100">
+
+    </div>
+</div>
+
+<script src="/js/statistic.js"></script>
+</body>
+</html>

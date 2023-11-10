@@ -1,0 +1,74 @@
+
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+
+<div class="container w-50" style="padding-top:200px;">
+    <form action="/user/findId" method="post" name="product_input_form">
+
+    <!-- Tab panes -->
+        <div class="tab-content">
+            <h5 class="ps-3">아이디 찾기</h5>
+            <hr style="color:black;height:3px;">
+                <div id="findIdSuccess" style="display:none" class="px-4 mt-2">
+                    <p class="text-center mt-4">가입시 아이디는 <b><span id="resultId"></span></b>입니다.</p>
+                    <div class="d-flex justify-content-center">
+                        <a class="btn mt-3 p-2 w-50" style="background-color:#f29a1a; color:white;" type="button" th:href="@{/user/userLogin}">로그인</a>
+                    </div>
+                </div>
+            <div class="d-flex justify-content-center">
+                <div id="findIdBefore" class="px-4 mt-4 w-75">
+                    <p>회원정보에 등록한 이름과 이메일이 같아야 아이디를 찾을 수 있습니다</p>
+                    <div class="d-flex mb-4 align-items-center">
+                        <h6 class="me-3" style="width:70px;">이름</h6>
+                        <input class="form-control p-2" style="height:60px;" type="text" id="user_name" name="user_name"
+                        placeholder="이름을 입력하세요"/>
+                    </div>
+                    <div class="d-flex mb-3 align-items-center">
+                        <h6 class="me-3" style="width:70px;">이메일</h6>
+                        <input class="form-control p-2" style="height:60px;" type="text" id="user_email" name="user_email"
+                        placeholder="이메일을 입력하세요"/>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <input class="btn mt-3 p-2 w-50" style="background-color:#f29a1a; color:white; height:60px;" type="button" value="아이디 찾기" onclick="idFind()"/>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-2" style="height:3px;">
+        </div>
+    </form>
+</div>
+
+        <script>
+            function idFind(){
+                let name = $("#user_name").val();
+                let email = $("#user_email").val();
+                let str = "";
+
+                $.ajax({
+                    // url:"<c:url value='/member/findId.do?name='/>"+name+"&tel="+tel,
+                    url: "/user/findId",
+                    type: "post",
+                    data: { "name" : name, "email": email } ,
+                    success: function (data){ //datasms 찾기 실패시 0, 찾으면 해당 아이디값
+
+
+                        $("#resultId").text(str);
+                        if(data==0){
+                            alert("이름 및 이메일을 다시 확인하기 바랍니다.")
+                        } else { // 아이디 찾기 성공
+                            str = data;
+                            console.log(data);
+                            $("#findIdBefore").css("display", "none");
+                            $("#findIdSuccess").css("display", "block");
+                            $("#resultId").text(str);
+                        }
+                    },
+                    error:function(){alert("아이디 찾기 요청 실패!!")}
+                });
+            }
+
+        </script>
+
+
+
+
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>

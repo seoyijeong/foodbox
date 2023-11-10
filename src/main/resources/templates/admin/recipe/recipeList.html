@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
+
+<!-- header -->
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+
+
+
+<!-- Card -->
+<div class="container w-50 mt-3">
+    <h3>레시피 리스트 </h3>
+
+    <form th:action="@{/admin/recipe}" method="post">
+
+            <div>
+        <input type="text" name="RCP_NM" placeholder="전체 검색">
+                <input class="btn btn-sm btn-warning" type="submit" value="검색">
+            </div>
+        <div>
+
+
+        <table class="table">
+
+            <thead>
+            <tr><!--메뉴-->
+                <th>레시피사진</th>
+                <th>메뉴이름</th>
+                <th>메뉴종류</th>
+                <th>조리종류</th>
+                <th>해시태그</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="recipe: ${list}">
+                <block th:each="dto: ${recipe}">
+<!--                    <input type="hidden" th:value="${dto.id}">-->
+                <tr>
+                    <td>
+                        <a><img th:src="${dto.ATT_FILE_NO_MAIN}" width="100"></a>
+                    </td>
+
+                    <td><a th:text="${dto.RCP_NM}" th:href="@{/admin/recipeInfo/{id}(id=${dto.id})}"></a></td>
+                    <td th:text="${dto.RCP_PAT2}"></td>
+                    <td th:text="${dto.RCP_WAY2}"></td>
+                    <td th:text="${dto.HASH_TAG}"></td>
+                    <!--<td><a class="btn btn-info btn-sm" th:href="@{/admin/recipeInfo(pno=${prod.get('pno')})}">수정</a></td>-->
+                    <td></td>
+                </tr>
+                </block>
+            </th:block>
+            </tbody>
+
+        </table>
+<!--페이지 네이션-->
+    <ul class="pagination justify-content-center my-5">
+        <li class="page-item" th:class="${pageDTO.prevPage &lt;= 0 ? 'disabled' : ''}">
+            <a class="page-link" th:href="@{/admin/recipe(viewPage=${pageDTO.prevPage},RCP_NM=${pageDTO.RCP_NM})}">이전</a>
+        </li>
+        <!-- pDto를 넘겨받음 -->
+        <th:block th:each="i : ${#numbers.sequence(pageDTO.blockStart, pageDTO.blockEnd)}">
+            <li class="page-item" th:class="${pageDTO.viewPage == i ? 'active':''}">
+               <a class="page-link" th:href="@{/admin/recipe/(viewPage=${i}, RCP_NM=${pageDTO.RCP_NM})}" th:text="${i}"></a>
+            </li>
+        </th:block>
+
+
+        <li class="page-item" th:class="${pageDTO.blockEnd &gt;= pageDTO.totalPage ? 'disabled' : ''}">
+            <a class="page-link" th:href="@{/admin/recipe(viewPage=${pageDTO.nextPage},RCP_NM=${pageDTO.RCP_NM})}">다음</a>
+        </li>
+    </ul>
+
+</div>
+
+<!-- footer -->
+<th:block th:replace="/admin/admin_bottom :: footerFragment"></th:block>

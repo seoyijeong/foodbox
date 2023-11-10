@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
+
+<!-- Card -->
+<div class="card me-5 mb-3" style="width:300px; border:none; height:300px;">
+    <a th:href="@{/user/productView(prod_code=${productDTO.prod_code})}" style="height:180px; overflow:hidden;">
+        <img class="card-image" th:src="@{/image/}+${productDTO.prod_thumbnail}" alt="Card image" style="width:100%">
+    </a>
+    <div class="card-body w-100 p-2">
+        <h7 class="" style= "font-size:15px;"><b th:text="${productDTO.prod_brand}+| ${productDTO.prod_name}"></b></h7>
+        <th:block th:if="${productDTO.prod_price>=50000}">
+            <p class="card-text">무료배송</p>
+        </th:block>
+        <p class="card-text" th:text="${#numbers.formatInteger(productDTO.prod_price, 3, 'COMMA')}+원"></p>
+    </div>
+    <div class="on_mouse"><a th:href="@{/user/productView(prod_code=${productDTO.prod_code})}"></a></div>
+</div>
+<th:block th:if="${(productcnt.count%4==0)&&(productcnt!=productList.size())}">
+    </div>
+    <div class="d-flex mt-3 w-100">
+</th:block>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.groupfour.foodbox.mapper.admin.StatisticMapper">
+    <select id="productList" resultType="productDTO">
+        SELECT * FROM product
+    </select>
+<select id="numberOfMember" resultType="statisticDTO">
+    SELECT count(*) AS num_member FROM user
+</select>
+<select id="numberOfWithdrawals" resultType="Integer">
+    SELECT ifnull(withdrawals_num, 0) FROM withdrawals_user
+</select>
+    <select id="totalsales" resultType="Integer">
+        SELECT ifnull(sum(ordertotprice),0) AS total_sales FROM orderlist WHERE order_status='ORDERSUCCESS'
+    </select>
+    <select id="monthlyList" resultType="monthlySalesDTO">
+        SELECT MONTH(order_inputDate) AS month,
+        ifnull(sum(ordertotprice),0) AS sales
+        FROM orderlist
+        WHERE order_status='ORDERSUCCESS'
+        GROUP BY month
+        ORDER BY month
+    </select>
+    <select id="termSales" resultType="Integer">
+        SELECT ifnull(sum(ordertotprice),0) AS total_sales
+        FROM orderlist
+        WHERE order_inputDate BETWEEN #{start_date}
+        AND  DATE_ADD(#{end_date}, interval 1  DAY)
+        AND order_status='ORDERSUCCESS'
+    </select>
+    <select id="termOrderNum" resultType="Integer">
+        SELECT ifnull(count(*),0) AS order_num
+        FROM orderlist
+        WHERE order_inputDate BETWEEN #{start_date}
+        AND  DATE_ADD(#{end_date}, interval 1  DAY)
+        AND order_status='ORDERSUCCESS'
+    </select>
+    <select id="productSales" resultType="Integer">
+        SELECT
+        IFNULL((SELECT prod_price FROM product WHERE prod_code = #{prod_code}) *
+        (SELECT COALESCE(sum(order_qty),0) FROM orderdetail WHERE prod_code = #{prod_code}),0) AS total_sales
+    </select>
+    <select id="productOrderNum" resultType="Integer">
+        SELECT ifnull(count(*),0) AS order_num
+        FROM orderdetail
+        WHERE prod_code = #{prod_code}
+        AND order_status='ORDERSUCCESS'
+    </select>
+    <select id="mothlSalesList" resultType="monthlySalesDTO">
+    SELECT MONTH(order_inputDate) AS month,
+        IFNULL((SELECT prod_price FROM product WHERE prod_code = #{prod_code})
+        *(SELECT sum(order_qty) FROM orderdetail WHERE prod_code = #{prod_code}),0) AS sales
+    FROM orderdetail
+    WHERE prod_code = #{prod_code}
+        AND order_status='ORDERSUCCESS'
+    GROUP BY month
+    ORDER BY month
+</select>
+
+</mapper>

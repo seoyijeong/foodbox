@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- header -->
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+
+<div class="container" style="padding-top: 150px; height:500px">
+
+    <p>주문을 완료했습니다!!</p>
+
+    <div class="text-center p-4">
+        <button class="btn btn-primary" onclick="location.href='/user/userOrder/orderlist';">주문내역 조회</button>
+        <a th:href="@{/}" class="btn btn-outline-primary">계속 쇼핑하기</a>
+    </div>
+</div>
+<!-- footer -->
+<th:block th:replace="/user_inc/footer :: footerFragment"></th:block>
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>

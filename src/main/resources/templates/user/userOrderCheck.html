@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- header -->
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+
+<style>
+    .content_box {
+        width: auto;
+        text-align: left;
+    }
+
+    .register_content_box {
+        width: auto;
+    }
+    td ul {
+        padding-left: 0px;
+    }
+
+    td ul li {
+        display: inline;
+    }
+
+    td ul li:not(:nth-child(1)) {
+        margin-left: 20px;
+    }
+
+    td ul li input {
+        margin-right: 5px;
+    }
+</style>
+
+<div class="container" style="padding-top: 150px">
+    <section class="w-75 ps-5">
+        <h2 class="mb-5">주문 / 결제</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th><input type="checkbox" id="checkAll" onclick="checkAll()"/>삭제</th>
+                <th>상품사진</th>
+                <th>상품명</th>
+                <th>수량</th>
+                <th>판매가</th>
+                <th>합계</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <!-- 장바구니 상품 출력하기 -->
+            <th:block th:each="dto: ${orderList}">
+                <tr>
+                    <td><input type="checkbox" name="chk" th:value="${dto.prod_code}"/></td>
+                    <td>
+                        <img th:src="@{/image/}+${dto.prod_thumbnail}" width="80px"/>
+                    </td>
+                    <td th:text="${dto.prod_name}"></td>
+                    <td th:text="${dto.order_qty}"></td>
+                    <td th:text="${#numbers.formatInteger(dto.prod_price, 0, 'COMMA') + '원'}"></td>
+                    <td th:text="${#numbers.formatInteger(dto.totPrice, 0, 'COMMA') + '원'}"></td>
+                </tr>
+
+            </th:block>
+
+            <tr>
+                <form th:action ="@{/user/userCartDelete}" name="cartForm" method="post">
+                    <input type="hidden" name="delProdNums"/>
+                    <td colspan="6">
+                        <a href="javascript:prodDel()" class="btn btn-sm btn-outline-secondary">선택삭제</a>
+                    </td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <p>장바구니 총액:&nbsp;<span th:text="${#numbers.formatInteger(cartTotPrice, 0, 'COMMA')}">0</span>원</p>
+            <input type="hidden" id="cartTotPrice" th:value="${cartTotPrice}"/>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>구매자 정보</th>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <input type="hidden" th:value="${userDTO.user_id}"/>
+                <td>이름</td>
+                <td id="user_name" th:text="${userDTO.user_name}"></td>
+            </tr>
+            <tr>
+                <td>이메일</td>
+                <td id="user_email" th:text="${userDTO.user_email}"></td>
+            </tr>
+            <tr>
+                <td>전화번호</td>
+                <td id="user_tel" th:text="${userDTO.user_tel}"></td>
+            </tr>
+            <tr>
+                <td><b>받는사람 정보</b></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>이름</td>
+                <td><input type="text" id="receiver_name" th:value="${userDTO.user_name}"></td>
+            </tr>
+            <tr>
+                <td>우편번호</td>
+                <td>
+                    <div class="content_box">
+                    <input class="register_content_box" type="text" id="sample4_postcode" name="user_zipcode" placeholder="우편번호" th:value="${userDTO.user_zipcode}" readonly required/>
+                    <input class="register_content_button" type="button" onclick="sample4_execDaumPostcode()" value="주소검색"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>배송지 주소</td>
+                <td>
+                    <div class="content_box">
+                    <input class="register_content_box" type="text" id="sample4_roadAddress" name="user_roadaddr" placeholder="도로명주소" th:value="${userDTO.user_roadaddr}" readonly/>
+                    <input class="register_content_box" type="text" id="user_detailaddr" name="user_detailaddr" placeholder="상세주소를 입력해주세요." th:value="${userDTO.user_detailaddr}"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>전화번호</td>
+                <td><input type="text" id="receiver_tel" th:value="${userDTO.user_tel}"></td>
+            </tr>
+            <tr>
+                <td><b>결제정보</b></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>총 결제금액</td>
+                <td th:text="${#numbers.formatInteger(cartTotPrice, 0, 'COMMA')}"> 원</td>
+            </tr>
+
+            <tr>
+                <td>결제방법</td>
+                <td>
+                    <ul>
+                        <li>
+                            <label><input type="radio" name="radioTxt" value="html5_inicis" checked>카드결제</label>
+                        </li>
+                        <li>
+                            <label><input type="radio" name="radioTxt" value="kakaopay">카카오페이</label>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+
+        <div class="text-center p-4">
+            <button class="btn btn-primary" th:onclick="payBtn([[${orderList}]])">결제하기</button>
+            <a th:href="@{/}" class="btn btn-outline-primary">계속 쇼핑하기</a>
+        </div>
+    </section>
+</div>
+
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script src="/js/zipcode.js"></script>
+<script src="/js/userOrder.js"></script>
+<script src="/js/userOrderCheck.js"></script>
+<!-- footer -->
+<th:block th:replace="/user_inc/footer :: footerFragment"></th:block>
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>

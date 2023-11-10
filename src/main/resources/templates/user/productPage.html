@@ -1,0 +1,123 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="ko" xmlns:th="http://www.thymeleaf.org">-->
+
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+<style>
+    .on_mouse,
+    .on_mouse a{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+    .on_mouse:hover,
+    .on_mouse a:hover{
+        opacity: 1;
+    }
+    .on_mouse a:hover{
+        background-color: #ffffffa1;
+    }
+</style>
+  <div class="container" style="padding-top:150px;">
+      <th:block th:if="${prod_spec=='ALL'}">
+        <h4 class="w-100 mb-5 text-center">| C A T E G O R Y |</h4>
+      </th:block>
+      <th:block th:if="${prod_spec!='ALL'}">
+        <h4 class="w-100 mb-5 text-center">| [[${prod_spec}]] |</h4>
+      </th:block>
+      <th:block th:if="${(category_name=='ALL')&&(prod_spec=='ALL')}">
+        <h6 class="w-100 mb-5 text-center">푸드 구성상품을 둘러보세요</h6>
+      </th:block>
+      <th:block th:if="${(category_name=='ALL')&&(prod_spec!='ALL')}">
+        <h6 class="w-100 mb-5 text-center">[[${prod_spec}]] 구성상품을 둘러보세요</h6>
+      </th:block>
+      <th:block th:if="${category_name!='ALL'}">
+        <h6 class="w-100 mb-5 text-center">[[${category_name}]] 구성상품을 둘러보세요</h6>
+      </th:block>
+<!--         <h6 class="mt-3 text-center">${category_code==productList.prod_cat_code? category_name: '푸드'} 구성상품을 둘러보세요</h6>-->
+      <div class="d-flex justify-content-center">
+          <div class="d-flex justify-content-end" style="width : 800px;">
+
+              <div class="dropdown">
+                  <button type="button" class="btn dropdown" data-bs-toggle="dropdown">
+                      정렬순 <i class="fa fa-chevron-down"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                      <a class="dropdown-item" th:href="@{/user/productPage(category_code=${category_code},prod_spec=${prod_spec})}">추천순</a>
+                      <a class="dropdown-item" th:href="@{/user/productPage(category_code=${category_code},prod_spec=${prod_spec},priceSort='LOW')}">낮은 가격순</a>
+                      <a class="dropdown-item" th:href="@{/user/productPage(category_code=${category_code},prod_spec=${prod_spec},priceSort='HIGH')}">높은 가격순</a>
+                  </ul>
+              </div>
+          </div>
+      </div>
+      <section class="w-100 ps-5 d-flex justify-content-center">
+
+
+          <th:block th:if="${productList.size()==0}">
+              <p>상품이 존재하지 않습니다.</p>
+          </th:block>
+
+          <div class="col-sm-9">
+                  <div class="d-flex mt-3 w-100">
+                      <th:block th:each="productDTO, productcnt : ${productList}">
+                          <th:block th:replace="/user/productPreview"/>
+                      </th:block>
+                      <div class="w-100" id="productpreview"></div>
+                  </div>
+          </div>
+
+          </div>
+      </section>
+
+  </div>
+<script>
+    let viewPage =1;
+$(window).scroll(()=>{
+   let checkNum=$(window).scrollTop()-($(document).height()-$(window).height());
+   console.log(checkNum);
+   if(checkNum<1&&checkNum>-1&&[[${pageDTO.totalPage>viewPage}]]){
+       viewPage++;
+       productLoad(viewPage);
+   }
+});
+function productLoad(viewPage){
+    let category_code = "[[${category_code}]]";
+    let prod_spec = "[[${prod_spec}]]";
+    let priceSort = "[[${priceSort}]]";
+
+    $.ajax({
+        type: 'get',
+        url:"/user/productPageRoad/"+category_code+"/"+prod_spec+"/"+priceSort+"/"+viewPage,
+
+        success: function(productList) {
+            let productViewLine='</div><div class="d-flex mt-3 w-100">';
+            let productCount =1;
+            for(let i=0; i<productList.length; i++){
+
+                productViewLine+='<div class="card me-5 mb-3" style="width:300px; border:none; height:300px;">'
+                    +'<a href="/user/productView?prod_code='+productList[i].prod_code+'" style="height:180px; overflow:hidden;">'
+                    +'<img class="card-image" src="/image/'+productList[i].prod_thumbnail+'" alt="Card image" style="width:100%">'
+                    +'</a>'
+                    +'<div class="card-body w-100 p-2">'
+                    +'<h7 class="" style="font-size:15px;">'
+                    +'<b>'+productList[i].prod_brand+productList[i].prod_name+'</b></h7>'
+                    +'<p class="card-text">'+productList[i].prod_price+'</p>'
+                    +'</div>'
+                    +'<div class="on_mouse"><a href="/user/productView?prod_code='+productList[i].prod_code+'"></a></div></div>';
+                    if(productCount%4==0) {
+                     productViewLine+='</div>'
+                         +'<div class="d-flex mt-3 w-100">';
+                    }
+                    productCount++;
+            }
+            $('#productpreview').append(productViewLine);
+        },
+
+    });
+}
+</script>
+
+<th:block th:replace="/user_inc/footer :: footerFragment"></th:block>
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>

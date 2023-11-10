@@ -1,0 +1,77 @@
+
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+
+<div class="container w-50" style="padding-top:200px;">
+    <form action="/user/findPw" method="post" name="product_input_form">
+
+        <div class="tab-content">
+            <h5 class="ps-3">비밀번호 찾기</h5>
+            <hr style="color:black;height:3px;">
+            <div id="findPwSuccess" style="display: none" class="px-4 mt-2">
+                <p class="text-center mt-4">
+                    <small>해당 이메일로 임시 비밀번호를 보냈습니다.
+                        로그인후 마이페이지에서 비밀번호를 변경하시기 바랍니다.
+                    </small>
+                </p>
+                <div class="d-flex justify-content-center">
+                    <a class="btn mt-3 p-2 w-50" style="background-color:#f29a1a; color:white;" type="button" th:href="@{/user/userLogin}">로그인</a>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div id="findPwBefore" class="px-4 mt-4 w-75">
+                    <p>회원정보에 등록한 아이디와 이메일이 같아야 비밀번호를 찾을 수 있습니다</p>
+                    <div class="d-flex mb-4 align-items-center">
+                        <h6 class="me-3" style="width:70px;">아이디</h6>
+                        <input class="form-control p-2" style="height:60px;" type="text" id="user_id" name="user_id"
+                               placeholder="아이디를 입력하세요"/>
+                    </div>
+                    <div class="d-flex mb-3 align-items-center">
+                        <h6 class="me-3" style="width:70px;">이메일</h6>
+                        <input class="form-control p-2" style="height:60px;" type="text" id="user_email" name="user_email"
+                               placeholder="이메일을 입력하세요"/>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                         <input class="btn mt-3 p-2 w-50" style="background-color:#f29a1a; color:white; height:60px;" type="button" value="비밀번호 찾기" onclick="pwFind()"/>
+                    </div>
+                </div>
+            </div>
+            <hr class="mt-2" style="height:3px;">
+        </div>
+    </form>
+</div>
+
+        <script>
+            function pwFind(){
+                let uid = $("#user_id").val();
+                let uEmail = $("#user_email").val();
+                let str = "";
+
+                $.ajax({
+                    url: "/user/findPw",
+                    type: "post",
+                    data: { "uid" : uid, "uEmail": uEmail } ,
+                    success: function (data){ //datasms 찾기 실패시 0, 찾으면 해당 아이디값
+
+                        if(data==0){
+                            alert("아이디 및 이메일을 다시 확인하기 바랍니다.")
+                        } else {
+                            str = data;
+                            console.log(data);
+                            $("#findPwBefore").css("display", "none");
+                            $("#findPwSuccess").css("display", "block");
+                        }
+                    },
+                    error:function(){alert("비밀번호 찾기 요청에 실패하였습니다.")}
+                });
+            }
+
+
+
+        </script>
+
+        </script>
+
+
+
+
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>

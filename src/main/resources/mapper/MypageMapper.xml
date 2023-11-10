@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.groupfour.foodbox.mapper.user.MypageMapper">
+        <!-- 비밀번호 재확인  -->
+        <select id="infoUpdateChk" resultType="userDTO">
+            SELECT * FROM user WHERE user_id = #{user_id}
+        </select>
+        <!-- 비밀번호 수정 -->
+        <update id="pwUpdate">
+            UPDATE user SET user_pw = #{new_pw} WHERE user_id = #{user_id}
+        </update>
+        <!-- 회원 정보 불러오기  -->
+        <select id="infoList">
+            SELECT * FROM user WHERE user_id = #{user_id}
+        </select>
+        <!--  회원정보 수정 -->
+        <update id="infoUpdate">
+            UPDATE user
+            SET user_name = #{user_name}, user_email = #{user_email}, user_tel = #{user_tel},
+            user_zipcode = #{user_zipcode}, user_roadaddr = #{user_roadaddr}, user_detailaddr = #{user_detailaddr}
+            WHERE user_id = #{user_id}
+        </update>
+        <!-- 회원정보 삭제   -->
+        <delete id="userDelete">
+            DELETE FROM user WHERE user_no = #{user_no}
+        </delete>
+        <!--  북마크 리스트  -->
+        <select id="bookmarkView" resultType="bookmarkDTO">
+            SELECT * FROM bookmark WHERE bm_user_no = (SELECT user_no FROM user WHERE user_id = #{id})
+        </select>
+        <!-- 북마크 삭제   -->
+        <delete id="bookmarkDel">
+            DELETE FROM bookmark WHERE bm_recipe_id = #{bm_recipe_id}
+        </delete>
+</mapper>

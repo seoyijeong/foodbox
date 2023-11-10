@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 헤더 -->
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+
+<div class="container w-75 mt-5">
+  <h3>제목</h3>
+
+  <form action="" method="post">
+    날짜 <input type="date" id="s_date" name="s_date"> ~ <input type="date" id="e_date" name="e_date">
+    <input type="text" name="name" placeholder="이름">
+
+    <select id="gender" name="gender">
+      <option value="ALL">전체</option>
+      <option value="남">남</option>
+      <option value="여">여</option>
+    </select>
+    <input class="btn btn-sm btn-warning" type="submit" value="검색">
+  </form>
+
+  <table class="table table-bordered">
+    <thead class="table-secondary">
+    <tr>
+      <th class="col-1">선택</th>
+      <th>요소1</th>
+      <th>요소2</th>
+      <th>요소3</th>
+      <th class="col-2">수정 / 삭제</th>
+    </tr>
+    </thead>
+
+<!--    <th:block th:each="member : ${list}">-->
+    <tbody>
+    <tr>
+
+      <td>
+        <input type="checkbox" name="chkNo"> <!--th:value=""-->
+      </td>
+      <td>요소1</td>
+      <td>요소2</td>
+      <td>요소3</td>
+
+      <td>
+        <a href="" class="btn btn-sm btn-info">수정</a>&nbsp
+        <a href="" class="btn btn-sm btn-danger">삭제</a>
+      </td>
+    </tr>
+<!--    </th:block>-->
+    </tbody>
+  </table>
+
+  <a href="" class="btn btn-danger">선택 삭제</a>
+</div>
+
+<!-- 페이지네이션 -->
+<ul class="pagination justify-content-center">
+  <li class="page-item">
+    <a class="page-link" href="">이전</a>
+  </li>
+
+<li class="page-item">
+  <a class="page-link" href="">1</a>
+</li>
+
+  <li class="page-item">
+    <a class="page-link" href="">다음</a>
+  </li>
+</ul>
+
+<!-- 푸터 -->
+<th:block th:replace="/admin/admin_bottom :: footerFragment"></th:block>
+</body>
+</html>

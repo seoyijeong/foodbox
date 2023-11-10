@@ -1,0 +1,113 @@
+
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+
+<div class="userinfo_container">
+    <div class="userinfo_wrap">
+        <p class="infoupdate_title">회원 정보 수정</p>
+        <div class="userinfo_pwChk">
+            <form class="userinfo_input" id="userinfo_form" th:action="@{/user/user_infoUpdateView}" method="post">
+                <div class="infoupdate_inner">
+                    <div class="userinfo_box info_inner">
+                        <div class="label_box user_label">
+                            <label for="user_id">아이디</label>
+                        </div>
+                        <div class="input_box">
+                            <input type="text" id="user_id" name="user_id" class="update_input" th:value="${session.userLoginDto.user_id}" readonly />
+                        </div>
+                    </div>
+                    <div class="info_inner">
+                        <div class="label_box name_label">
+                            <label for="user_name">이름</label>
+                        </div>
+                        <div class="input_box">
+                            <input type="text" id="user_name" name="user_name" class="update_input" onkeyup="nameInput()" th:value="${userDTO.user_name}"/>
+                        </div>
+                    </div>
+                    <div class="validation validation_input_name">
+                        <p class="validation_text" id="checkNameMsg"></p>
+                    </div>
+                    <div class="info_inner">
+                        <div class="label_box email_label">
+                            <label for="user_email">이메일</label>
+                        </div>
+                        <div class="input_box">
+                            <input type="email" id="user_email" name="user_email" class="update_input" onkeyup="emailInput()" th:value="${userDTO.user_email}" />
+                        </div>
+                        <button type="button" class="confirm_btn " onclick="emailCheck_two()">이메일 인증</button>
+                    </div>
+                    <div class="register_content_wrap" id="confirmEmail" style="display:none;"></div>
+                    <div class="validation validation_input_name">
+                        <p class="validation_text" id="checkEmailMsg"></p>
+                    </div>
+                    <div class="info_inner">
+                        <div class="label_box tel_label">
+                            <label for="user_tel">휴대폰</label>
+                        </div>
+                        <div class="input_box">
+                            <input type="text" id="user_tel" name="user_tel" class="update_input" onkeyup="telInput()" oninput="hypenTel(this)" maxlength="13" th:value="${userDTO.user_tel}" />
+                        </div>
+<!--                        <button type="button" class="confirm_btn" onclick="telBtn()">휴대폰 인증</button>-->
+                    </div>
+                    <div class="validation validation_input_name">
+                        <p class="validation_text" id="checkTelMsg"></p>
+                    </div>
+                    <div class="userinfo_box info_inner ">
+                        <div class="label_box gender_label">
+                            <span>성별</span>
+                        </div>
+                        <div class="gender_box">
+                            <label><input type="radio" th:checked="true" name="user_gender" class="gender_radio" th:value="${userDTO.user_gender}" readonly/> 남자</label>
+                            <label><input type="radio" th:checked="true" name="user_gender" class="gender_radio" th:value="${userDTO.user_gender}" readonly/> 여자</label>
+                        </div>
+                    </div>
+                    <div class="userpw_box info_inner">
+                        <div class="label_box birth_label">
+                            <label for="user_email">생년월일</label>
+                        </div>
+                        <div class="input_box">
+                            <input type="date" id="user_birthday" name="user_birthday" class="update_input" th:value="${userDTO.user_birthday}" readonly />
+                        </div>
+                    </div>
+                </div>
+                <div class="userupdate_btn_box addr_update">
+                    <p class="addr_title">기본 배송지</p>
+                    <div class="addr_box">
+                        <div class="info_inner userAddr_box">
+                            <div class="label_box addr_label">
+                                <label for="sample4_postcode">우편번호</label>
+                            </div>
+                            <div class="input_box">
+                                <input type="text" id="sample4_postcode" name="user_zipcode" class="addr_num_input" th:value="${userDTO.user_zipcode}" readonly/>
+                            </div>
+                        </div>
+                        <div class="info_inner userAddr_box">
+                            <div class="label_box zibun_label">
+                                <label for="sample4_roadAddress">주소</label>
+                            </div>
+                            <div class="input_box addr_seach addr_inner">
+                                <input type="text" id="sample4_roadAddress" class="addr_input" name="user_roadaddr" th:value="${userDTO.user_roadaddr}">
+                            </div>
+                            <button type="button" class="addr_seachBtn" onclick="sample4_execDaumPostcode()">주소 검색</button>
+                        </div>
+                        <div class="info_inner userAddr_box">
+                            <div class="label_box addr_label">
+                                <label for="user_detailaddr">상세주소</label>
+                            </div>
+                            <div class="input_box addr_detail addr_inner">
+                                <input type="text" id="user_detailaddr" class="addr_input" placeholder="상세주소 입력" name="user_detailaddr" th:value="${userDTO.user_detailaddr}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="btn_inner">
+                <button type="reset" class="userUpdate_btn deleteBtn" th:onclick="|userDeleteBtn(${userDTO.user_no})|">탈퇴하기</button>
+                <button type="submit" class="userUpdate_btn" onclick="userUpdateBtn()">회원정보수정</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{/js/infoUpdateEmailChk.js}"></script>
+
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>

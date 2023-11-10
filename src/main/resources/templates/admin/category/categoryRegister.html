@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+<div class="container w-50 mt-5">
+    <a href="javascript:history.back();"><i class="fa fa-arrow-left" style="color:black;"></i></a>
+    <h3 class="text-center mb-4">카테고리등록</h3>
+    <form action="/admin/categoryRegister" method="post" name="category_input_form">
+        <!--카테고리 코드 입력-->
+        <p><input class="form-control" type="text" id="category_code" name="category_code" onkeyup="categoryCodeCheck()" placeholder="카테고리코드"></p>
+        <p id="checkCategoryMessage" class="mb-3"></p>
+        <!--카테고리명 입력-->
+        <p><input class="form-control" type="text" id="category_name" name="category_name" placeholder="카테고리명"></p>
+        <!--버튼 클릭시 DB에 등록-->
+        <div class="d-flex justify-content-center mb-4">
+            <input class="btn btn-outline-success" type="button" onclick = "inputCheck()" value="카테고리 등록">
+        </div>
+    </form>
+</div>
+<script>
+    //입력값 null값 체크
+    let checknum= false;
+    function inputCheck(){
+        //카테고리코드 공백값일시 알림창 띄우고 입력창 focus 되게함
+        if(!category_input_form.category_code.value || category_input_form.category_code.value.trim()==""){
+            alert("카테고리 코드를 입력하세요");
+            category_input_form.category_code.focus();
+            return;
+        }
+        //카테고리명 공백값일시 알림창 띄우고 입력창 focus 되게함
+        if(!category_input_form.category_name.value || category_input_form.category_name.value.trim()==""){
+            alert("카테고리명을 입력하세요");
+            category_input_form.category_name.focus();
+            return;
+        }
+        if(!checknum){
+            alert("카테고리 코드를 확인하세요");
+            category_input_form.category_code.focus();
+            return;
+        }
+        //카테고리 코드, 명 모두 null값이 아닐시 DB등록으로 넘어감
+        document.category_input_form.submit();
+    }
+    function categoryCodeCheck(){
+        let category_code = $("#category_code").val();
+
+        $.ajax({
+            url: "/admin/checkCategoryCode",
+            data: {"category_code":category_code},
+            type:'get',
+            success: function(message){
+                if(message=="yes"){
+                    $("#checkCategoryMessage").html("사용가능한 코드입니다");
+                    $("#checkCategoryMessage").css({"color":"blue", "font-size":"13px"});
+                    checknum=true;
+                }else{
+                    $("#checkCategoryMessage").html("사용 불가능한 코드입니다");
+                    $("#checkCategoryMessage").css({"color":"red", "font-size":"13px"});
+                }
+            },
+            error : function(){
+                $("#checkCategoryMessage").html("서버 에러입니다");
+            }
+        });
+    }
+</script>
+<th:block th:replace="/admin/admin_bottom :: footerFragment"></th:block>
+</body>
+</html>

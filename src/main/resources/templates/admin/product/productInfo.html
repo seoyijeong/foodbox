@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+<!-- 본문 -->
+<div class="container w-50 mt-5">
+    <!-- 뒤로가기버튼(목록으로 이동) -->
+    <a href="javascript:history.back();"><i class="fa fa-arrow-left" style="color:black;"></i></a>
+    <!-- 수정버튼 클릭시 action -->
+    <form action="/admin/productModify" method="post" name="product_modify_form" enctype="multipart/form-data">
+        <table class='table table-borderless'>
+            <thead>
+            <th colspan='2'>
+                <!-- 테이블 head -->
+                <h3 class='text-center'>상품 정보</h3>
+            </th>
+            </thead>
+            <!-- 테이블 내용 -->
+            <tr>
+                <td>상품 번호</td>
+                <!-- 각칼럼에 해당하는 값 -->
+                <td><input class='form-control' type='text' name="prod_code" th:value="${productDTO.prod_code}" readonly/></td>
+            </tr>
+            <tr>
+                <td>카테고리 코드</td>
+                <td>
+                    <select class="form-select form-select-sm"  name="prod_cat_code" >
+                        <option th:each="categoryDTO : ${categorylist}" th:value="${categoryDTO.category_code}"
+                                th:selected="${categoryDTO.category_code} == ${productDTO.prod_cat_code}">
+                            [[${categoryDTO.category_name}]] [ [[${categoryDTO.category_code}]] ]</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>상품명</td>
+                <td><input class="form-control" type="text" id="prod_name" name="prod_name" th:value="${productDTO.prod_name}"></td>
+            </tr>
+            <tr>
+                <td>제조사</td>
+                <td><input class="form-control" type="text" id="prod_brand" name="prod_brand" th:value="${productDTO.prod_brand}"></td>
+            </tr>
+            <tr>
+                <td>제조일</td>
+                <td><input class="form-control" type="date" id="prod_madedate" name="prod_madedate" th:value="${productDTO.prod_madedate}"></td>
+            </tr>
+            <tr>
+                <td>상품가격</td>
+                <td><input class="form-control" type="text" id="prod_price" name="prod_price" th:value="${productDTO.prod_price}"></td>
+            </tr>
+            <tr>
+                <td>상품수량</td>
+                <td><input class="form-control" type="text" id="prod_qty" name="prod_qty" th:value="${productDTO.prod_qty}"></td>
+            </tr>
+            <tr>
+                <td>상품썸네일</td>
+                <td><img class="card-image" th:src="@{/image/}+${productDTO.prod_thumbnail}" alt="Card image" style="width:75px;">
+                <input class="form-control" type="file"  name="prod_thumbnail">
+                    <input class="form-control" type="hidden"  name="prod_thumbnailold" th:value="${productDTO.prod_thumbnail}"></td>
+            </tr>
+            <tr>
+                <td>상품요약</td>
+                <td><input class="form-control" type="text" id="prod_comment" name="prod_comment" th:value="${productDTO.prod_comment}"></td>
+            </tr>
+            <tr>
+                <td>원산지</td>
+                <td><input class="form-control" type="text" id="prod_country" name="prod_country" th:value="${productDTO.prod_country}"></td>
+            </tr>
+            <tr>
+                <td>상품 스펙</td>
+                <td><select class="form-select form-select-sm" name="prod_spec">
+                    <option value="none" th:selected="'none'==${productDTO.prod_spec}">일반</option>
+                    <option th:each="prod_spec : ${prodSpec}" th:value="${prod_spec.name()}"
+                            th:selected="${prod_spec.name()} == ${productDTO.prod_spec}">
+                        [[${prod_spec.value}]]</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+            <h6>상품 상세정보 이미지 업로드</h6>
+            <p id="fileUpload" class="d-flex">
+            <div class="row mb-2">
+                <div class="col-md-6 col-sm-6">
+                    <input type="button" class="form-control btn btn-outline-secondary"
+                           value="업로드파일 추가" onclick="fileAppend()"/>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <input type="button" class="form-control btn btn-outline-secondary"
+                           value="업로드파일 취소" onclick="fileRemove()"/>
+                    <input type="hidden" class="form-control" id="clickRemove" name="clickRemove"
+                           value="noClick"/>
+                </div>
+            </div>
+            <div id="div-file">
+                <th:block th:each="productImage, imagecount : ${productImageList}">
+                    <img class="prod_image" th:src="@{/image/}+${productImage.image_prod_image}" alt="Product image" style="width:75px;">
+<!--                    <p>[[${imagecount.count}]]</p>-->
+                    <input type="file" class="form-control" th:name="image_prod_image+${imagecount.count}" onchange="preViewImg(this)"/>
+                    <input type="hidden" class="form-control" th:name="image_no" th:value="${productImage.image_no}"/>
+                    <input type="hidden" class="form-control" th:name="image_prod_image+${imagecount.count}+old"
+                           th:value="${productImage.getImage_prod_image()}"/>
+                </th:block>
+            </div>
+            <th:block th:each="productImage, imagecount : ${productImageList}">
+                <input type="hidden" class="form-control" th:name="image_prod_image+${imagecount.count}+old"
+                   th:value="${productImage.getImage_prod_image()}"/>
+            </th:block>
+        </p>
+            <div class="d-flex justify-content-center mt-3 mb-4">
+                <input type='button' value='수정' class='btn btn-sm btn-outline-success m-1' onclick = "inputCheck()">
+                <input type='reset' value='취소' class='btn btn-sm btn-outline-warning m-1'>
+            </div>
+    </form>
+    <input type="hidden" id="listcnt" th:value="${#lists.size(productImageList)}">
+</div>
+<script>
+    let cnt=$("#listcnt").val();
+    function fileAppend(){
+        cnt++;
+        var fileElement ='<input type="file" class="form-control" name="image_prod_image'+cnt+'" onchange="preViewImg(this)"/><img />';
+        $("#div-file").append(fileElement);
+
+    }
+    function fileRemove(){
+        $("#div-file").empty();
+        cnt=1;
+        $("#clickRemove").val("click");
+    }
+    //입력값 null값 체크
+    let check = /^[0-9]+$/;
+    function inputCheck(){
+        let thumbnail = product_modify_form.prod_thumbnail.value;
+        //입력창 공백값 입력시 상품 등록 불가
+        if(!product_modify_form.prod_name.value || product_modify_form.prod_name.value.trim()==""){
+            alert("상품명을 입력하세요");
+            product_modify_form.prod_name.focus();
+            return;
+        }
+        if(!product_modify_form.prod_brand.value || product_modify_form.prod_brand.value.trim()==""){
+            alert("제조사를 입력하세요");
+            product_modify_form.prod_brand.focus();
+            return;
+        }
+        if(!product_modify_form.prod_madedate.value || product_modify_form.prod_madedate.value.trim()==""){
+            alert("제조일을 입력하세요");
+            product_modify_form.prod_madedate.focus();
+            return;
+        }
+        if(!product_modify_form.prod_price.value || product_modify_form.prod_price.value.trim()==""){
+            alert("가격을 입력하세요");
+            product_modify_form.prod_price.focus();
+            return;
+        }
+        if (!check.test(product_modify_form.prod_price.value)) {
+            alert('가격은 숫자만 입력가능합니다');
+            product_modify_form.prod_price.focus();
+            return;
+        }
+        if(!product_modify_form.prod_qty.value || product_modify_form.prod_qty.value.trim()==""){
+            alert("수량을 입력하세요");
+            product_modify_form.prod_qty.focus();
+            return;
+        }
+        if (!check.test(product_modify_form.prod_qty.value)) {
+            alert('수량은 숫자만 입력가능합니다');
+            product_modify_form.prod_qty.focus();
+            return;
+        }
+        if(!product_modify_form.prod_comment.value || product_modify_form.prod_comment.value.trim()==""){
+            alert("상품요약을 입력하세요");
+            product_modify_form.prod_comment.focus();
+            return;
+        }
+        if(!product_modify_form.prod_country.value || product_modify_form.prod_country.value.trim()==""){
+            alert("원산지를 입력하세요");
+            product_modify_form.prod_country.focus();
+            return;
+        }
+
+
+        //카테고리 코드, 명 모두 null값이 아닐시 DB등록으로 넘어감
+        document.product_modify_form.submit();
+    }
+</script>
+</body>
+</html>

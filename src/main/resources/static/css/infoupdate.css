@@ -1,0 +1,222 @@
+/** {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    box-sizing: border-box;*/
+/*}*/
+
+/*!* 중복 *!*/
+/*.userinfo_container {*/
+/*    width: 1200px;*/
+/*    margin: auto;*/
+/*}*/
+
+/*!* 중복 *!*/
+/*.userinfo_wrap {*/
+/*    padding-top: 10em;*/
+/*    width: 65%;*/
+/*    height: auto;*/
+/*    margin: auto;*/
+/*}*/
+
+.infoupdate_title {
+    font-size: 24px;
+    font-weight: 600;
+    padding-bottom: 1.5em;
+    margin-bottom: 1.5em;
+    color: #333;
+    border-bottom: 1.4px solid #333;
+}
+
+/*!* 중복 *!*/
+/*.userinfo_pwChk {*/
+/*    width: 100%;*/
+/*    height: auto;*/
+/*    !*padding-top: 5em;*!*/
+/*}*/
+
+/* 중복 */
+.pwChk_text {
+    margin-bottom: 1.5em;
+}
+
+.infoupdate_inner {
+    width: 30em;
+    margin: auto;
+}
+
+/*!* 중복 *!*/
+/*.label_box {*/
+/*    font-size: 14px;*/
+/*    font-weight: 550;*/
+/*    color: #333;*/
+/*    padding-top: 1em;*/
+/*}*/
+
+.info_inner {
+    display: flex;
+    width: 50em;
+}
+
+.email_inner {
+    display: flex;
+    width: 30em;
+    margin: 2em 0;
+}
+
+.userinfo_box {
+    margin-bottom: 1.5em;
+}
+
+/* user_label 중복 */
+.email_label, .tel_label{
+    padding-right: 5.3em;
+}
+
+.email_confirm_label {
+    padding-right: 3.5em;
+}
+
+.name_label, .gender_label, .zibun_label {
+    padding-right: 6.3em;
+}
+
+.birth_label, .addr_label {
+    padding-right: 4.2em;
+}
+
+/*!* 중복 *!*/
+/*.input_box {*/
+/*    width: 20em;*/
+/*}*/
+
+/* info_input 중복 */
+.update_input, .addr_input{
+    width: 20em;
+    height: 2.8em;
+    padding: 0 1em 0 1.5em;
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.userupdate_btn_box {
+    margin-top: 1.5em;
+    padding-top: 2em;
+    border-top: 1px solid #333;
+}
+
+.userUpdate_btn {
+    width: 10em;
+    height: 3.8em;
+    border-radius: 4px;
+    border: 0px none;
+    background-color: #f29a1a;
+    color: #fff;
+    cursor: pointer;
+    margin: 0 0.5em;
+    font-weight: 500;
+}
+
+.confirm_btn, .addr_seachBtn, .email_check {
+    width: 8.5em;
+    height: 2.8em;
+    border-radius: 4px;
+    border: 1px solid #f29a1a;
+    color: #f29a1a;
+    font-weight: 500;
+    background-color: #fff;
+    cursor: pointer;
+    margin-left: 0.6em;
+}
+
+.email_check {
+    margin-left: 0.5em;
+    text-align: center;
+}
+
+.email_chk_box {
+    /*margin: 2.5em 0;*/
+    margin: 2em  1.3em 0 0 ;
+}
+
+/* 중복 */
+.btn_inner {
+    text-align: center;
+    margin-bottom: 10em;
+}
+
+.deleteBtn {
+    border: 1px solid #f29a1a;
+    color: #f29a1a;
+    font-weight: 500;
+    background-color: #fff;
+}
+
+.gender_box {
+    width: 20em;
+    font-size: 16px;
+    padding-top: 0.5em;
+
+}
+
+.gender_box label {
+    margin-right: 3em;
+}
+
+
+/* 유효성 검사 */
+
+.validation {
+    color: #f03f40;
+    font-size: 13px;
+    padding: 0.5em 0 1em 9em ;
+}
+
+/* 주소 검색 */
+
+.addr_title {
+    font-size: 24px;
+    font-weight: 600;
+    padding-bottom: 1.5em;
+    padding: 0 0 1.5em 0;
+    margin-bottom: 1.5em;
+    color: #333;
+    border-bottom: 1.4px solid #333;
+}
+
+.addr_update {
+    padding-bottom: 2em;
+    margin-bottom: 2em;
+    border-bottom: 1px solid #333;
+}
+
+.addr_box {
+    /* border: 1px solid #000; */
+    width: 30em;
+    margin: auto;
+}
+
+.addr_num_input {
+    width: 10em;
+    height: 2.8em;
+    padding: 0 1em 0 1.5em;
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.userAddr_box {
+    margin-bottom: 0.5em;
+}
+
+.addr_label {
+    padding-right: 4.3em;
+}
+
+.user_email_confirm {
+    padding-right: 4.5em;
+}
+
+/*.label_box {*/
+/*    */
+/*}*/

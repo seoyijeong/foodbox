@@ -1,0 +1,82 @@
+use foodboxdb;
+
+-- 카테고리 테이블(foodbox)
+create table category(
+	category_no int primary key auto_increment,
+    category_code varchar(10) not null unique key,
+    category_name varchar(100) not null
+);
+
+select * from category;
+drop table category;
+select * from product;
+
+-- 제품 테이블(foodbox)
+create table product(
+	prod_code int primary key auto_increment,
+    prod_cat_code varchar(10) not null,
+    prod_name varchar(100) not null,
+    prod_brand varchar(100) not null,
+    prod_madedate date not null,
+    prod_price int not null,
+    prod_qty int not null,
+    prod_thumbnail varchar(300) not null,
+    prod_comment varchar(300) not null,
+    prod_country varchar(100) not null,
+    prod_spec varchar(50) not null,
+    prod_inputdate datetime default now(),
+
+    foreign key (prod_cat_code) references category(category_code)
+);
+
+drop table product;
+
+-- 상품 상세이미지 테이블(foodbox)
+select * from product_image;
+create table product_image(
+	image_no int primary key auto_increment,
+    image_prod_code int not null,
+    image_prod_image varchar(300) not null,
+
+    foreign key (image_prod_code) references product(prod_code)
+	on delete cascade
+);
+
+create table admin(
+admin_name varchar(20) not null,
+admin_id varchar(30) not null ,
+admin_pw varchar(20) not null,
+admin_email varchar(50) not null,
+admin_tel varchar(50) not null,
+primary key (admin_id)
+);
+insert into admin values('홍길동', 'admin', '1234', 'test@gmail.com','010-9999-4444');
+-- 상품댓글 테이블
+create table product_reply(
+	reply_no int primary key auto_increment,
+    reply_prod_code int not null,
+    reply_user_id varchar(50) not null,
+    reply_content varchar(1000) not null,
+    reply_rating int not null,
+    reply_date datetime default now(),
+    foreign key (reply_prod_code) references product(prod_code)
+	on delete cascade
+);
+-- 레시피 북마크 테이블
+create table bookmark(
+	bm_no int primary key auto_increment,
+    bm_user_no int not null,
+    bm_recipe_id bigint not null,
+    bm_recipe_rcp_nm varchar(255) not null,
+    bm_recipe_att_file_no_main varchar(255) not null,
+    bm_recipe_rcp_pat2 varchar(255) not null,
+	bm_recipe_rcp_way2 varchar(255) not null,
+    foreign key (bm_user_no) references user(user_no)
+	on delete cascade,
+    foreign key (bm_recipe_id) references recipeinfo(id)
+	on delete cascade
+);
+-- 탈퇴자수 체크
+create table withdrawals_user(
+	withdrawals_num int
+);

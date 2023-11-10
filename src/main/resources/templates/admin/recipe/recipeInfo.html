@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- header -->
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+<!-- 본문 -->
+<div class="container w-50 mt-5">
+
+
+  <!-- 수정버튼 클릭시 상세페이지로 이동 -->
+  <form action="/recipe/recipeModify" method="post">
+    <table class='table table-borderless'>
+      <thead>
+        <!-- 테이블 head -->
+        <h3 class='text-center'>레시피 정보</h3>
+      </thead>
+      <!-- 테이블 내용 -->
+      <tr>
+        <th>레시피 이미지</th>
+        <td><img th:src="${recipeDTO.ATT_FILE_NO_MK}" width="200px"></td>
+      </tr>
+      <tr>
+        <th>레시피번호</th>
+        <!-- 각칼럼에 해당하는 값 -->
+        <td><input class='form-control' type='text' name="id"
+                   th:value="${recipeDTO.id}" readonly/></td>
+      </tr>
+      <tr>
+        <th>레시피이름</th>
+        <td><input class='form-control' type='text' name="RCP_NM"
+                   th:value="${recipeDTO.RCP_NM}"/></td>
+      </tr>
+      <tr>
+        <th>조리방법</th>
+        <td><input class='form-control' type='text' name="RCP_WAY2"
+                   th:value="${recipeDTO.RCP_WAY2}"/></td>
+      </tr>
+      <th>조리타입</th>
+      <td><input class='form-control' type='text' name="RCP_PAT2"
+                 th:value="${recipeDTO.RCP_PAT2}"/></td>
+      </tr>
+      <tr>
+        <th>해시태그</th>
+        <td><input class='form-control' type='text' name="HASH_TAG"
+                   th:value="${recipeDTO.HASH_TAG}"/></td>
+      </tr>
+      <tr>
+        <th>무게(1인당)</th>
+        <td><input class='form-control' type='text' name="INFO_WGT"
+                   th:value="${recipeDTO.INFO_WGT}"/></td>
+      </tr>
+      <tr>
+      <th>칼로리</th>
+      <td><input class='form-control' type='text' name="INFO_ENG"
+                 th:value="${recipeDTO.INFO_ENG}"/></td>
+      </tr>
+      <tr>
+      <th>탄수화물</th>
+      <td><input class='form-control' type='text' name="INFO_CAR"
+                 th:value="${recipeDTO.INFO_CAR}"/></td>
+      </tr>
+      <tr>
+      <th>단백질</th>
+      <td><input class='form-control' type='text' name="INFO_PRO"
+                 th:value="${recipeDTO.INFO_PRO}"/></td>
+      </tr>
+      <tr>
+      <th>지방</th>
+      <td><input class='form-control' type='text' name="INFO_FAT"
+                 th:value="${recipeDTO.INFO_FAT}"/></td>
+      </tr>
+      <tr>
+      <th>나트륨</th>
+      <td><input class='form-control' type='text' name="INFO_NA"
+                 th:value="${recipeDTO.INFO_NA}"/></td>
+      </tr>
+      <tr>
+        <th>성분정보</th>
+        <td><input class='form-control' type='text' name="RCP_PARTS_DTLS"
+                   th:value="${recipeDTO.RCP_PARTS_DTLS}"/></td>
+      </tr>
+      <tr>
+        <th>요리팁</th>
+        <td><input class='form-control' type='text' name="RCP_NA_TIP"
+                   th:value="${recipeDTO.RCP_NA_TIP}"/></td>
+      </tr>
+      <th>요리순서1</th>
+      <td><input class='form-control' type='text' name="MANUAL01"
+                 th:value="${recipeDTO.MANUAL01}"/></td>
+      </tr>
+      <th>요리순서이미지1</th>
+      <td><img th:src="${recipeDTO.MANUAL_IMG01}" width="200px"></td>
+      </tr>
+      <th>요리순서2</th>
+      <td><input class='form-control' type='text' name="MANUAL02"
+                 th:value="${recipeDTO.MANUAL02}"/></td>
+      </tr>
+      <th>요리순서이미지2</th>
+      <td><img th:src="${recipeDTO.MANUAL_IMG02}" width="200px"></td>
+      </tr>
+      <th>요리순서3</th>
+      <td><input class='form-control' type='text' name="MANUAL03"
+                 th:value="${recipeDTO.MANUAL03}"/></td>
+      </tr>
+      <th>요리순서이미지3</th>
+      <td><img th:src="${recipeDTO.MANUAL_IMG03}" width="200px"></td>
+      </tr>
+      <th>요리순서4</th>
+      <td><input class='form-control' type='text' name="MANUAL04"
+                 th:value="${recipeDTO.MANUAL04}"/></td>
+      </tr>
+      <th>요리순서이미지4</th>
+      <td><img th:src="${recipeDTO.MANUAL_IMG04}" width="200px"></td>
+      </tr>
+      <th>요리순서5</th>
+      <td><input class='form-control' type='text' name="MANUAL05"
+                 th:value="${recipeDTO.MANUAL05}"/></td>
+      </tr>
+      <th>요리순서이미지5</th>
+      <td><img th:src="${recipeDTO.MANUAL_IMG05}" width="200px"></td>
+      </tr>
+      <th>요리순서6</th>
+      <td><input class='form-control' type='text' name="MANUAL06"
+                 th:value="${recipeDTO.MANUAL06}"/></td>
+      </tr>
+      <th>요리순서이미지6</th>
+      <td><img th:src="${recipeDTO.MANUAL_IMG06}" width="200px"></td>
+      </tr>
+
+    </table>
+  </form>
+  </div>

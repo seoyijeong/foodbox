@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+    <!-- 본문 -->
+    <div class="container w-50 mt-5">
+        <!-- 뒤로가기버튼(목록으로 이동) -->
+        <a href="javascript:history.back();"><i class="fa fa-arrow-left" style="color:black;"></i></a>
+        <!-- 수정버튼 클릭시 action -->
+        <form action="/admin/categoryModify" method="post" name="category_modify_form">
+            <table class='table table-borderless'>
+                <thead>
+                <th colspan='2'>
+                    <!-- 테이블 head -->
+                    <h3 class='text-center'>카테고리 정보</h3>
+                    <div class=''>
+
+                    </div>
+                </th>
+                </thead>
+                <!-- 테이블 내용 -->
+                <tr>
+                    <td>카테고리 번호</td>
+                    <!-- 각칼럼에 해당하는 값 -->
+                    <td><input class='form-control' type='text' name="category_no" th:value="${categoryDTO.category_no}" readonly/></td>
+                </tr>
+                <tr>
+                    <td>카테고리 코드</td>
+                    <td><input class="form-control" type="text" id="category_code" name="category_code"
+                               onkeyup="categoryCodeCheck()" th:value="${categoryDTO.category_code}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><p id="checkCategoryMessage" class="mb-3 d-block text-center"></p></td>
+                </tr>
+                <tr>
+                    <td>카테고리 명</td>
+                    <td><input class="form-control" type="text" id="category_name" name="category_name" th:value="${categoryDTO.category_name}"></td>
+                </tr>
+
+            </table>
+            <div class="d-flex justify-content-center mb-4">
+                <input type='button' value='수정' class='btn btn-sm btn-outline-success m-1' onclick = "inputCheck()">
+                <input type='reset' value='취소' class='btn btn-sm btn-outline-warning m-1'>
+            </div>
+        </form>
+    </div>
+    <script>
+        let checknum= false;
+        //입력값 null값 체크
+        function inputCheck(){
+            //카테고리코드 공백값일시 알림창 띄우고 입력창 focus 되게함
+            if(!category_modify_form.category_code.value || category_modify_form.category_code.value.trim()==""){
+                alert("카테고리 코드를 입력하세요");
+                category_modify_form.category_code.focus();
+                return;
+            }
+            //카테고리명 공백값일시 알림창 띄우고 입력창 focus 되게함
+            if(!category_modify_form.category_name.value || category_modify_form.category_name.value.trim()==""){
+                alert("카테고리명을 입력하세요");
+                category_modify_form.category_name.focus();
+                return;
+            }
+            if(!checknum){
+                alert("카테고리 코드를 확인하세요");
+                category_modify_form.category_code.focus();
+                return;
+            }
+            //카테고리 코드, 명 모두 null값이 아닐시 DB수정으로 넘어감
+            document.category_modify_form.submit();
+        }
+        function categoryCodeCheck(){
+            let category_code = $("#category_code").val();
+
+            $.ajax({
+                url: "/admin/checkCategoryCode",
+                data: {"category_code":category_code},
+                type:'get',
+                success: function(message){
+                    if(message=="yes"){
+                        $("#checkCategoryMessage").html("사용가능한 코드입니다");
+                        $("#checkCategoryMessage").css({"color":"blue", "font-size":"13px"});
+                        checknum=true;
+                    }else{
+                        $("#checkCategoryMessage").html("사용 불가능한 코드입니다");
+                        $("#checkCategoryMessage").css({"color":"red", "font-size":"13px"});
+                    }
+                },
+                error : function(){
+                    $("#checkCategoryMessage").html("서버 에러입니다");
+                }
+            });
+        }
+    </script>
+<th:block th:replace="/admin/admin_bottom :: footerFragment"></th:block>
+</body>
+</html>

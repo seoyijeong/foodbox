@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
+
+<!-- Card -->
+<div class="card me-5 mb-3" style="width:300px; border:none; height:300px;">
+    <a th:href="@{/user/productView(prod_code=${productDTO.prod_code})}" style="height:180px; overflow:hidden;">
+        <!--        <img class="card-image" th:src="@{C://image/}+${productDTO.prod_thumbnail}" alt="Card image" style="width:100%">-->
+        <img class="card-image" th:src="@{/image/}+${productDTO.prod_thumbnail}" alt="Card image" style="width:100%">
+    </a>
+    <div class="card-body">
+        <h7 class="" style= "font-size:13px;"><b th:text="${productDTO.prod_brand}+| ${productDTO.prod_name}"></b></h7>
+        <p class="card-text new__price" th:text="${#numbers.formatInteger(productDTO.prod_price, 3, 'COMMA')} + 원"></p>
+    </div>
+</div>

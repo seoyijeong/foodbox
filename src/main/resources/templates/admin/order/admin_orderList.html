@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+<style>
+  .table>thead {
+    vertical-align: middle;
+  }
+  td {
+    word-break: break-all;
+  }
+</style>
+<div class="container w-75 mt-3">
+  <h3 class="mt-3 text-center">주문 리스트</h3>
+  <button type="button" class="btn btn-primary"><a th:href="@{/admin/statistic}">주문 통계</a></button>
+  <form action="/admin/productList" method="post">
+    <select id="searchType" name="searchType">
+      <option value="ALL">전체</option>
+    </select>
+    <input type="text" id="keyword" name="keyword" placeholder="주문Id">
+    <input class="btn btn-sm btn-warning" type="submit" value="주문검색">
+  </form>
+  <form id="frmTable" action="" method="post">
+    <table class="table table-bordered">
+      <thead class="table-secondary text-center">
+      <tr>
+        <th>주문번호</th>
+        <th>주문자 ID</th>
+        <th>주문자 이름</th>
+        <th>주문상품</th>
+        <th>받는사람 이름</th>
+        <th>받는사람 전화번호</th>
+        <th>주문배송주소</th>
+        <th>주문상태</th>
+        <th>주문합계</th>
+        <th>주문날짜</th>
+        <th>주문취소</th>
+      </tr>
+
+      </thead>
+      <tbody class="text-center">
+      <th:block th:each="orderDTO : ${orderList}">
+        <tr>
+          <td><a th:text="${orderDTO.order_no}" th:href="@{/admin/order/orderDetail(order_no=${orderDTO.order_no})}" style="text-decoration: underline; display: block;"></a></td>
+          <td th:text="${orderDTO.user_id}"></td>
+          <td th:text="${orderDTO.user_name}"></td>
+          <td><a th:text="${orderDTO.prod_name}" th:href="@{/admin/order/orderDetail(order_no=${orderDTO.order_no})}" style="text-decoration: underline; display: block;"></a></td>
+          <td th:text="${orderDTO.receiver_name}"></td>
+          <td th:text="${orderDTO.receiver_tel}"></td>
+          <td th:text="|${orderDTO.user_zipcode} ${orderDTO.user_roadaddr} ${orderDTO.user_detailaddr}|"></td>
+          <td th:text="${orderDTO.order_status.status}"></td>
+          <td th:text="${#numbers.formatInteger(orderDTO.orderTotPrice, 0, 'COMMA') + '원'}"></td>
+          <td th:text="${#temporals.format(orderDTO.order_inputDate, 'YYYY-MM-dd HH:mm')}"></td>
+          <td><a class="btn btn-danger btn-sm" th:onclick="adminOrderCancle([[${orderDTO.order_no}]])">주문취소</a></td>
+        </tr>
+      </th:block>
+      </tbody>
+    </table>
+  </form>
+</div>
+<ul class="pagination justify-content-center">
+  <li class="page-item" th:class="${pageDTO.prevPage<=0} ? 'disabled'">
+    <a class="page-link" th:href="@{/admin/order/orderList(viewPage=${pageDTO.prevPage},keyword=${keyword},searchType=${searchType})}">이전</a>
+  </li>
+  <th:block th:each="i: ${#numbers.sequence(pageDTO.blockStart,pageDTO.blockEnd)}">
+    <th:block th:if="${i!=0}">
+      <li class="page-item" th:classappend="${pageDTO.viewPage == i? 'active':''}">
+        <a class="page-link" th:href="@{/admin/order/orderList(viewPage=${i},keyword=${keyword},searchType=${searchType})}">[[${i}]]</a>
+      </li>
+    </th:block>
+  </th:block>
+  <li class="page-item"th:class="${pageDTO.blockEnd>=pageDTO.totalPage} ? 'disabled'">
+    <a class="page-link" th:href="@{/admin/order/orderList(viewPage=${pageDTO.nextPage},keyword=${keyword},searchType=${searchType})}">다음</a>
+  </li>
+</ul>
+
+<script src="/js/userOrder.js"></script>
+<th:block th:replace="/admin/admin_bottom :: footerFragment"></th:block>
+</body>
+</html>

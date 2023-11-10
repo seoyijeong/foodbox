@@ -1,0 +1,51 @@
+
+<th:block th:fragment="footerFragment">
+        <footer class="footer">
+            <div class="footer__wrap">
+                <div class="footer__inner">
+                    <div class="info__box">
+                        <ul class="info__list">
+                            <li>회사소개</li>
+                            <li>이용약관</li>
+                            <li>개인정보처리방침</li>
+                            <li>고객센터</li>
+                            <div class="info_li">
+                                <li><a href="/admin">&nbsp;</a></li>
+                            </div>
+                        </ul>
+                    </div>
+                    <address class="addr">
+                        <div class="addr__wrap">
+                            <div class="addr__inner">
+                                <div class="addr__info">
+                                    <p class="addr__text">서울특별시 구로구 공원로 83 4층</p>
+                                    <p>
+                                        Copyright &copy; 2023 FOODBOX All Rights Reserved
+                                    </p>
+                                </div>
+                                <!-- logo  -->
+                                <div class="f-logo">
+                                    <img src="/imgs/footer_logo.svg" alt="로고이미지">
+<!--                                    <a>FOOD BOX</a>-->
+                                </div>
+                            </div>
+                        </div>
+                    </address>
+                </div>
+            </div>
+        </footer>
+</th:block>
+
+<th:block th:fragment="scriptFragment">
+    <script type="text/javascript">
+        $.noConflict();
+    </script>
+    <script type="text/javascript" th:src="@{/js/mypage.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/zipcode.js}"></script>
+    <script type="text/javascript" th:src="@{/js/search.js}"></script>
+    <script type="text/javascript" th:src="@{/js/userRegister.js}"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    </body>
+    </html>
+</th:block>

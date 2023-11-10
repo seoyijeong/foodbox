@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupfour.foodbox.mapper.user.RecipePageMapper">
+
+    <select id="recipeCount" resultType="Integer">
+        SELECT count(*) FROM recipeinfo
+    </select>
+
+    <select id="recipeList" resultType="recipeDTO">
+        SELECT * FROM recipeinfo
+        ORDER BY id ASC
+        LIMIT #{pageDTO.startIndex}, #{pageDTO.cntPerPage}
+    </select>
+
+    <select id="recipeView" resultType="recipeDTO">
+        SELECT * FROM recipeinfo WHERE id=#{id}
+    </select>
+    <select id="bookmarkCheck" resultType="bookmarkDTO">
+        SELECT * FROM bookmark
+        WHERE bm_recipe_id=#{bookmarkDTO.bm_recipe_id} AND bm_user_no=#{bookmarkDTO.bm_user_no}
+    </select>
+    <insert id="bookmarkRegister">
+        INSERT INTO bookmark(bm_user_no, bm_recipe_id, bm_recipe_rcp_nm, bm_recipe_att_file_no_main, bm_recipe_rcp_pat2, bm_recipe_rcp_way2)
+        VALUES(#{bookmarkDTO.bm_user_no}, #{bookmarkDTO.bm_recipe_id}, #{bookmarkDTO.bm_recipe_rcp_nm},
+        #{bookmarkDTO.bm_recipe_att_file_no_main}, #{bookmarkDTO.bm_recipe_rcp_pat2}, #{bookmarkDTO.bm_recipe_rcp_way2})
+    </insert>
+    <select id="userCheck">
+        SELECT * FROM user WHERE user_id=#{user_id}
+    </select>
+    <select id="recommendProduct" resultType="productDTO">
+        SELECT * FROM product ORDER BY prod_code DESC
+        LIMIT 8
+    </select>
+    <select id="recipeReply" resultType="recipeReplyDTO">
+        SELECT * FROM recipe_reply WHERE reply_recipe_code=#{reply_recipe_code} ORDER BY reply_date DESC
+        LIMIT #{replyPageDTO.startIndex}, #{replyPageDTO.cntPerPage}
+    </select>
+
+    <insert id="recipeReplyRegister">
+        INSERT INTO recipe_reply(reply_recipe_code, reply_user_id, reply_content, reply_rating)
+        VALUES(#{reply_recipe_code}, #{reply_user_id},#{reply_content}, #{reply_rating})
+    </insert>
+    <select id="recipeReplyCount" resultType="Integer">
+        SELECT ifnull(count(*),0) FROM recipe_reply WHERE reply_recipe_code=#{reply_recipe_code}
+    </select>
+    <select id="recipeRatingSum" resultType="Integer">
+        SELECT ifnull(SUM(reply_rating),0) FROM recipe_reply WHERE reply_recipe_code=#{reply_recipe_code}
+    </select>
+    <delete id="recipeReplyDelete">
+        DELETE FROM recipe_reply WHERE reply_num=#{reply_num}
+    </delete>
+</mapper>
+

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 헤더 -->
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+
+<link rel="stylesheet" th:href="@{/css/userLogin.css}">
+
+<div class="wrap01">
+  <form th:action="@{/user/userLogin}" method="post">
+
+    <p class="user_login">로그인</p>
+    <th:block th:if="${session.loginMsg != null}">
+      <p class="text-center text-danger" th:text="${session.loginMsg}"></p>
+    </th:block>
+
+    <div class="input_wrap">
+    <!-- 아이디 & 비밀번호 입력창-->
+    <div class="inputbox_wrap">
+      <input class="inputbox01" type="text" id="user_id" name="user_id" placeholder="아이디를 입력해주세요."/>
+      <input class="inputbox02" type="password" id="user_pw" name="user_pw" placeholder="비밀번호를 입력해주세요."/>
+    </div>
+
+    <!-- 아이디 & 비밀번호 찾기 -->
+    <div class="find_wrap">
+      <a class="find01" th:href="@{/user/findId}">아이디 찾기 </a>
+      <span class="find_bar"></span>
+      <a class="find02" th:href="@{/user/findPw}">비밀번호 찾기</a>
+    </div>
+
+    <!-- 로그인 & 회원가입 버튼-->
+    <div class="register_wrap">
+      <input class="registerbox01" type="submit" value="로그인"/>
+      <div class="registerbox02"><a class="registerbox03" th:href="@{/user/userRegister}">회원가입</a></div>
+      <div class="kakaoImage"><a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=ea90d7e3863b99ec87024ee49f5015f3&redirect_uri=http://localhost:8800/oauth/kakao">
+        <img src="/kakaoImage/kakao_login_medium_narrow.png" style="width: 320px; height: 60px;"></a></div>
+    </div>
+    </div>
+  </form>
+</div>
+
+<!-- 푸터 -->
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>
+
+</body>
+</html>

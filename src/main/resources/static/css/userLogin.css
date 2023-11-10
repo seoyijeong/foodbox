@@ -1,0 +1,120 @@
+/* 초기화 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 컨텐츠 부분 전체 감싸기 */
+
+.wrap01 {
+    width: 320px;
+    text-align: center;
+    padding-top: 200px;
+    margin: 0 auto;
+
+}
+
+.input_wrap{
+    width: 320px;
+}
+
+.user_login {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* 아이디 & 비밀번호 입력창 */
+
+.inputbox_wrap{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.inputbox01 {
+    width: 320px;
+    height: 60px;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    padding: 0 11px 1px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.inputbox02 {
+    width: 320px;
+    height: 60px;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    padding: 0 11px 1px 15px;
+    border-radius: 5px;
+}
+
+/* 아이디 & 비밀번호 찾기 */
+
+.find_wrap{
+    width: 150px;
+    font-size: 13px;
+    display: flex;
+    margin-left: 170px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+.find_bar{
+    width: 1px;
+    height: 10px;
+    margin: 6px 6px 0px;
+    background-color: #888;
+}
+
+/* 로그인 & 회원가입 버튼 */
+
+.register_wrap{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.registerbox01 {
+    width: 320px;
+    height: 60px;
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
+    border: 1px solid #f29a1a;
+    padding: 0 11px 1px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f29a1a;
+}
+
+.registerbox02 {
+    width: 320px;
+    height: 60px;
+    font-size: 15px;
+    color: #f29a1a;
+    font-weight: bold;
+    border: 1px solid #f29a1a;
+    padding: 0 11px 1px 15px;
+    border-radius: 5px;
+    background-color: white;
+    line-height: 60px;
+    text-align: center;
+}
+
+.registerbox03{
+    color: #f29a1a;
+}
+
+.registerbox03:hover {
+    color: #f29a1a;
+}
+
+.kakaoImage {
+    margin-top: 10px;
+}

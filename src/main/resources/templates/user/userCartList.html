@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- header -->
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+
+<style>
+    td{vertical-align:middle;}
+</style>
+
+<div class="container col-6" style="padding-top: 150px; height: 1000px;">
+
+<!--    <c:if test="${requestScope.msg !=null}">-->
+<!--        <script>-->
+<!--            alert("${requestScope.msg}");-->
+<!--        </script>-->
+<!--    </c:if>-->
+    <h4 class="w-100 mb-5 text-center">| 장 바 구 니 |</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>상품이미지</th>
+                <th>상품명</th>
+                <th>수량</th>
+                <th>판매가</th>
+                <th>합계</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:if="|${cartList==null || cartList.size() ==0}|">
+                <tr>
+                    <td colspan="6">장바구니가 비었습니다!!</td>
+                </tr>
+            </th:block>
+            <th:block th:if="|${cartList!=null || cartList.size() !=0}|">
+                <th:block th:each="dto: ${cartList}">
+
+                    <tr>
+                        <td>
+                            <img th:src="@{/image/}+${dto.prod_thumbnail}" width="100px">
+<!--                            <a href="<c:url value="/product/prodView.do?pnum=${dto.pnum}&pspec=${dto.pspec}"/>">-->
+<!--                            <img src="<c:url value="/productRepo/${dto.pimage}"/>" style="width:60px"/>-->
+<!--                            </a>-->
+                        </td>
+                        <td th:text="${dto.prod_name}"></td>
+                        <td>
+                            <form th:action="@{/user/userCartModify/(user_id = ${dto.user_id}, cart_no=${dto.cart_no})}" method="post">
+                                <input type="text" size="3" name="order_qty" th:value="${dto.order_qty}"/>개<br/>
+                                <input type="submit" class="btn btn-sm btn-secondary mt-3" value="수정"/>
+                            </form>
+                        </td>
+                        <td th:text="${#numbers.formatInteger(dto.prod_price, 0, 'COMMA') + '원'}">
+                        </td>
+
+                        <td th:text="${#numbers.formatInteger(dto.totPrice, 0, 'COMMA') + '원'}">
+                        </td>
+
+                        <td>
+                                <button class="btn btn-sm btn-danger" th:onclick="|userCartObject.deleteCart(${dto.cart_no})|">삭제</button>
+                        </td>
+                    </tr>
+                </th:block>
+            </th:block>
+            </tbody>
+        </table>
+        <!-- 장바구니 총액 표시 -->
+        <div class="text-end">
+            <p>장바구니 총액:&nbsp;<span th:text="${#numbers.formatInteger(cartTotPrice, 0, 'COMMA')}">0</span>원</p>
+        </div>
+        <div class="text-center">
+            <a th:href="@{/user/userOrder/{user_id}(user_id=${session.userLoginDto?.user_id})}" class="btn btn-primary me-2">구매하기</a>
+            <a href="javascript:history.back()" class="btn btn-outline-primary me-2">계속 쇼핑하기</a>
+        </div>
+
+
+</div>
+
+<script src="/js/userCart.js"></script>
+<!-- footer -->
+<th:block th:replace="/user_inc/footer :: footerFragment"></th:block>
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>

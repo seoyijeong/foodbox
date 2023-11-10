@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+<div class="container w-75 mt-3">
+  <h3 class="mt-3 text-center">주문 상세정보</h3>
+  <form action="/admin/productList" method="post">
+    <select id="searchType" name="searchType">
+      <option value="ALL">전체</option>
+    </select>
+    <input type="text" id="keyword" name="keyword" placeholder="주문Id">
+    <input class="btn btn-sm btn-warning" type="submit" value="주문검색">
+  </form>
+  <form id="frmTable" action="" method="post">
+    <table class="table table-bordered">
+      <thead class="table-secondary text-center">
+      <tr>
+        <th>주문번호</th>
+        <th>상품이미지</th>
+        <th>상품명</th>
+        <th>수량</th>
+        <th>판매가</th>
+        <th>합계</th>
+        <th>주문상태</th>
+        <th>주문날짜</th>
+      </tr>
+
+      </thead>
+      <tbody class="text-center">
+      <th:block th:each="dto : ${orderDetail}">
+        <tr>
+          <td th:text="${dto.order_no}"></td>
+          <td>
+            <img th:src="@{/image/}+${dto.prod_thumbnail}" width="100px">
+          </td>
+          <td th:text="${dto.prod_name}"></td>
+          <td th:text="|${dto.order_qty}개|"></td>
+          <td th:text="${#numbers.formatInteger(dto.prod_price, 0, 'COMMA') + '원'}">
+          </td>
+
+          <td th:text="${#numbers.formatInteger(dto.totPrice, 0, 'COMMA') + '원'}">
+          </td>
+
+          <td th:text="${dto.order_status.status}">
+          </td>
+
+          <td th:text="${#temporals.format(dto.order_inputDate, 'YYYY-MM-dd HH:mm')}">
+          </td>
+        </tr>
+      </th:block>
+      </tbody>
+    </table>
+  </form>
+</div>
+<ul class="pagination justify-content-center">
+  <li class="page-item" th:class="${pageDTO.prevPage<=0} ? 'disabled'">
+    <a class="page-link" th:href="@{/admin/order/orderDetail(viewPage=${pageDTO.prevPage},order_no=${orderDetail.get(0).order_no},keyword=${keyword},searchType=${searchType})}">이전</a>
+  </li>
+  <th:block th:each="i: ${#numbers.sequence(pageDTO.blockStart,pageDTO.blockEnd)}">
+    <th:block th:if="${i!=0}">
+      <li class="page-item" th:classappend="${pageDTO.viewPage == i? 'active':''}">
+        <a class="page-link" th:href="@{/admin/order/orderDetail(viewPage=${i},order_no=${orderDetail.get(0).order_no},keyword=${keyword},searchType=${searchType})}">[[${i}]]</a>
+      </li>
+    </th:block>
+  </th:block>
+  <li class="page-item"th:class="${pageDTO.blockEnd>=pageDTO.totalPage} ? 'disabled'">
+    <a class="page-link" th:href="@{/admin/order/orderDetail(viewPage=${pageDTO.nextPage},order_no=${orderDetail.get(0).order_no},keyword=${keyword},searchType=${searchType})}">다음</a>
+  </li>
+</ul>
+<th:block th:replace="/admin/admin_bottom :: footerFragment"></th:block>
+</body>
+</html>

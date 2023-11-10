@@ -1,0 +1,340 @@
+<!-- 헤더 -->
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+
+<!-- 컨텐츠 영역 -->
+<div class="user_register_wrap">
+
+    <!-- 회원가입 헤더부분-->
+    <div class="user_register_header">
+        <div class="user_register">회원가입</div>
+        <div class="must_write">
+            <span class="must_write01">&ast;</span>
+            <span class="must_write02">필수입력사항</span>
+        </div>
+        <div class="register_line"></div>
+    </div>
+
+    <!-- 회원가입 메인부분-->
+    <form class= "user_register_form" name="user_register_form" id="user_register_form" action="/user/userRegister" method="post">
+        <!-- 아이디 입력부분-->
+        <div class="register_content_wrap">
+            <div class="register_content01">
+                <span class="must_write03">아이디</span>
+                <span class="must_write04">&ast;</span>
+            </div>
+            <div class="register_content02">
+                <div class="content_box">
+                    <input class="register_content_box" type="text" id="user_id" name="user_id" maxlength="16"  placeholder="아이디를 입력해주세요."onkeyup="inputId()"/>
+                    <p class="chkMsg" id="idMsg"></p>
+                </div>
+            </div>
+            <div class="register_content03">
+                <div class="content_button">
+                    <input class="register_content_button" id="duplicateChk" type="button" onclick="checkUser_id()" value="중복확인"/>
+                </div>
+            </div>
+        </div>
+
+        <!-- 비밀번호 입력부분-->
+        <div class="register_content_wrap">
+            <div class="register_content01">
+                <span class="must_write03">비밀번호</span>
+                <span class="must_write04">&ast;</span>
+            </div>
+            <div class="register_content02">
+                <div class="content_box">
+                    <input class="register_content_box" type="password" id="user_pw" name="user_pw" onkeyup="inputPw()" placeholder="비밀번호를 입력해주세요."/>
+                    <p class="chkMsg" id="pwMsg"></p>
+                </div>
+            </div>
+            <div class="register_content03"></div>
+        </div>
+
+        <!-- 비밀번호 확인부분-->
+        <div class="register_content_wrap">
+            <div class="register_content01">
+                <span class="must_write03">비밀번호 확인</span>
+                <span class="must_write04">&ast;</span>
+            </div>
+            <div class="register_content02">
+                <div class="content_box">
+                    <input class="register_content_box" type="password" id="user_pw2" name="user_pw2" placeholder="비밀번호를 다시 입력해주세요." onkeyup="inputPwChk()"/>
+                    <p class="chkMsg" id="checkPwMsg"></p>
+                </div>
+            </div>
+            <div class="register_content03"></div>
+        </div>
+
+        <!-- 이름 입력부분-->
+        <div class="register_content_wrap">
+            <div class="register_content01">
+                <span class="must_write03">이름</span>
+                <span class="must_write04">&ast;</span>
+            </div>
+            <div class="register_content02">
+                <div class="content_box">
+                    <input class="register_content_box" type="text" id="user_name" name="user_name" onkeyup="inputName()" placeholder="이름을 입력해주세요."/>
+                    <p class="chkMsg" id="nameMsg"></p>
+                </div>
+            </div>
+            <div class="register_content03">
+                <p><select class="register_content_button2" id="user_gender" name="user_gender">
+                    <option value="성별">성별</option>
+                    <option value="남자">남자</option>
+                    <option value="여자">여자</option>
+                </select></p>
+            </div>
+        </div>
+
+        <!-- 이메일 입력부분-->
+        <div class="register_content_wrap">
+            <div class="register_content01">
+                <span class="must_write03">이메일</span>
+                <span class="must_write04">&ast;</span>
+            </div>
+            <div class="register_content02">
+                <div class="content_box">
+                    <input class="register_content_box" type="email" id="user_email" name="user_email" onkeyup="inputEmail()" placeholder="이메일을 입력해주세요."/>
+                    <p class="chkMsg" id="emailMsg"></p>
+                </div>
+            </div>
+            <div class="register_content03">
+                <div class="content_button">
+                    <input class="register_content_button" type="button" onclick="emailCheck()" value="인증메일"/>
+                </div>
+            </div>
+
+        </div>
+        <div class="register_content_wrap" id="confirmEmail" style="display:none;">
+
+        </div>
+
+        <!-- 주소 입력부분-->
+
+            <div class="register_content_wrap">
+                <div class="register_content01">
+                    <span class="must_write03">우편번호</span>
+                    <span class="must_write04">&ast;</span>
+                </div>
+                <div class="register_content02">
+                    <div class="content_box">
+<!--                        <p><input class="register_content_box" type="text" id="sample4_postcode" name="user_postcode" disabled onkeyup="inputPostCode()" placeholder="우편번호"/></p>-->
+                        <p><input class="register_content_box" type="text" id="sample4_postcode"
+                                  name="user_zipcode" readonly placeholder="우편번호"/></p>
+                        <p class="chkMsg" id="postCodeMsg"></p>
+                    </div>
+                </div>
+                <div class="register_content03">
+                    <div class="content_button">
+                        <input class="register_content_button" type="button" onclick="sample4_execDaumPostcode()" value="주소검색" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- 도로명주소 -->
+            <div class="register_content_wrap">
+                <div class="register_content01">
+                    <span class="must_write03">도로명주소</span>
+                    <span class="must_write04">&ast;</span>
+                </div>
+                <div class="register_content02">
+                    <div class="content_box">
+                        <p><input class="register_content_box" type="text" id="sample4_roadAddress" name="user_roadaddr" placeholder="도로명주소" readonly></p>
+                    </div>
+                </div>
+                <div class="register_content03"></div>
+            </div>
+
+            <!-- 상세주소 입력부분-->
+            <div class="register_content_wrap">
+                <div class="register_content01">
+                    <span class="must_write03">상세주소</span>
+                </div>
+                <div class="register_content02">
+                    <div class="content_box">
+                        <input class="register_content_box" type="text" id="user_detailaddr" name="user_detailaddr" placeholder="상세주소를 입력해주세요."/>
+                    </div>
+                </div>
+                <div class="register_content03"></div>
+            </div>
+
+            <!-- 전화번호 입력부분-->
+            <div class="register_content_wrap">
+                <div class="register_content01">
+                    <span class="must_write03">전화번호</span>
+                    <span class="must_write04">&ast;</span>
+                </div>
+                <div class="register_content02">
+                    <div class="content_box">
+                        <input class="register_content_box" type="text" id="user_tel" name="user_tel" onkeyup="inputTel()" oninput="hypenTel(this)"placeholder="전화번호를 입력해주세요."/>
+                        <p class="chkMsg" id="telMsg"></p>
+                    </div>
+                </div>
+                <div class="register_content03"></div>
+            </div>
+
+            <!-- 생년월일 입력부분-->
+            <div class="register_content_wrap">
+                <div class="register_content01">
+                    <span class="must_write03">생년월일</span>
+                    <span class="must_write04">&ast;</span>
+                </div>
+                <div class="register_content02">
+                    <div class="content_box">
+                        <p><input class="register_content_box" type="date" id="user_birthday" name="user_birthday" min="1990-01-01" max="2022-12-31"
+                                onchange="inputBirthDay()"  data-placeholder="생년월일"></p>
+                    </div>
+                </div>
+                <div class="register_content03"></div>
+            </div>
+
+            <div class="register_line"></div>
+
+
+            <!-- 동의 모달 -->
+            <div class="register_agree_wrap">
+                <div class="register_content01">
+                    <span class="must_write03">이용약관동의</span>
+                    <span class="must_write04">&ast;</span>
+                </div>
+
+                <div class="agree">
+                    <div class="agree_01">
+                        <div class="modal_check">
+                            <div class="modal_checkBox"><input type="checkbox" id="allCheck" style="accent-color: #f29a1a"></div>
+                            <div>이용약관, 개인정보 수집 및 이용에 모두 동의합니다.</div>
+                        </div>
+                    </div>
+
+                    <div class="agree_02">
+                        <div class="modal_check">
+                            <input class="modal_checkBox" id="ToU" type="checkbox" style="accent-color: #f29a1a">이용약관에 동의합니다.(필수)
+                            <div id="modalOpenButton">약관 보기></div>
+                        </div>
+                    </div>
+
+                    <div id="modalContainer" class="hidden">
+                        <div id="modalContent">
+                            <h5 class="modal_title">푸드박스 이용약관 (필수)</h5>
+                            <div style="overflow:auto; width:380px; height:370px;">
+                                <th:block th:replace="/user/agreement01"></th:block>
+                            </div>
+                            <div class="modal_close_button"><button type="button" id="modalCloseButton">확인</button></div>
+                        </div>
+                    </div>
+
+                    <div class="agree_03">
+                        <div class="modal_check">
+                            <input class="modal_checkBox" id="privacy" type="checkbox" style="accent-color: #f29a1a">개인정보 처리방침에 동의합니다.(필수)
+                            <div id="modalOpenButton2">약관 보기></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="modalContainer2" class="hidden">
+                <div id="modalContent2">
+                    <h5 class="modal_title">푸드박스 개인정보 처리방침 (필수)</h5>
+                    <div style="overflow:auto; width:380px; height:370px;">
+                        <th:block th:replace="/user/agreement02"></th:block>
+                    </div>
+                    <div class="modal_close_button"><button type="button" id="modalCloseButton2">확인</button></div>
+                </div>
+            </div>
+
+
+            <!-- 회원 가입 버튼 --->
+            <div class="register_content_wrap">
+                <div class="register_content01"></div>
+                <div class="register_content02">
+                    <div class="content_box">
+                        <p><input class="register_content_box" id="register_button" onclick="userJoin()" type="button" value="회원가입"/></p>
+                    </div>
+                </div>
+                <div class="register_content03"></div>
+            </div>
+
+    </form>
+</div>
+
+
+
+<!-- 푸터-->
+<th:block th:replace="/user_inc/footer :: footerFragment"></th:block>
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>
+
+
+<script>
+
+    $('#allCheck').click(function(){
+        let checked = $('#allCheck').is(':checked');
+        if(checked)
+            $('input:checkbox').prop('checked',true);
+        if(!checked)
+            $('input:checkbox').prop('checked',false);
+    });
+    $('#ToU').click(function(){
+        let touchk = $('#ToU').is(':checked');
+        let privacychk = $('#privacy').is(':checked');
+        if(touchk&&!privacychk)
+            $('#allCheck').prop('checked',false);
+        if(!touchk)
+            $('#allCheck').prop('checked',false);
+        if(touchk&&privacychk)
+            $('#allCheck').prop('checked',true);
+    });
+    $('#privacy').click(function(){
+        let touchk = $('#ToU').is(':checked');
+        let privacychk = $('#privacy').is(':checked');
+        if(privacychk&&!touchk)
+            $('#allCheck').prop('checked',false);
+        if(!privacychk)
+            $('#allCheck').prop('checked',false);
+        if(touchk&&privacychk)
+            $('#allCheck').prop('checked',true);
+    });
+
+    <!-- 모달-->
+    const modalOpenButton = document.getElementById('modalOpenButton');
+    const modalOpenButton2 = document.getElementById('modalOpenButton2');
+    const modalCloseButton = document.getElementById('modalCloseButton');
+    const modalCloseButton2 = document.getElementById('modalCloseButton2');
+    const modal = document.getElementById('modalContainer');
+    const modal2 = document.getElementById('modalContainer2');
+
+
+
+    modalOpenButton.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+    });
+
+    modalOpenButton2.addEventListener('click', () => {
+        modal2.classList.remove('hidden');
+    });
+
+    modalCloseButton.addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+
+    modalCloseButton2.addEventListener('click', () => {
+        modal2.classList.add('hidden');
+    });
+
+    //모달팝업을 열 때 스크롤 막기
+        $('html, body').css({'overflow': 'hidden', 'height': '100%'}); // 모달팝업 중 html,body의 scroll을 hidden시킴
+    $('#element').on('scroll touchmove mousewheel', function(event) { // 터치무브와 마우스휠 스크롤 방지
+        event.preventDefault();
+        event.stopPropagation();
+
+        return false;
+    });
+
+
+    //모달팝업을 닫을 때 스크롤 다시 열기
+        $('html, body').css({'overflow': 'auto', 'height': '100%'}); //scroll hidden 해제
+    $('#element').off('scroll touchmove mousewheel'); // 터치무브 및 마우스휠 스크롤 가능
+
+</script>
+
+
+</body>
+</html>

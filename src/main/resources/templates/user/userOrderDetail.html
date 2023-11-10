@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- header -->
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+
+<style>
+    td{vertical-align:middle;}
+</style>
+
+<div class="container" style="padding-top: 150px; height: 1000px">
+
+    <h4 class="w-100 mb-5 text-center">| 주 문 상 세 |</h4>
+        <table class="table table-bordered">
+            <thead class="table-secondary text-center">
+            <tr>
+                <th>주문번호</th>
+                <th>상품이미지</th>
+                <th>상품명</th>
+                <th>수량</th>
+                <th>판매가</th>
+                <th>합계</th>
+                <th>주문상태</th>
+                <th>주문날짜</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:if="|${orderDetail==null || orderDetail.size() ==0}|">
+                <tr>
+                    <td colspan="6">주문내역이 없습니다!!</td>
+                </tr>
+            </th:block>
+
+            <th:block th:if="|${orderDetail!=null || orderDetail.size() !=0}|">
+                <th:block th:each="dto : ${orderDetail}">
+                    <tr>
+                        <td th:text="${dto.order_no}"></td>
+                        <td>
+                            <img th:src="@{/image/}+${dto.prod_thumbnail}" width="100px">
+                        </td>
+                        <td th:text="${dto.prod_name}"></td>
+                        <td th:text="|${dto.order_qty}개|"></td>
+                        <td th:text="${#numbers.formatInteger(dto.prod_price, 0, 'COMMA') + '원'}">
+                        </td>
+
+                        <td th:text="${#numbers.formatInteger(dto.totPrice, 0, 'COMMA') + '원'}">
+                        </td>
+
+                        <td th:text="${dto.order_status.status}">
+                        </td>
+
+                        <td th:text="${#temporals.format(dto.order_inputDate, 'YYYY-MM-dd HH:mm')}">
+                        </td>
+
+                    </tr>
+                </th:block>
+            </th:block>
+            </tbody>
+        </table>
+
+    <div class="text-end">
+        <p>주문 총액:&nbsp;<span th:text="${#numbers.formatInteger(orderTotprice, 0, 'COMMA')}">0</span>원</p>
+    </div>
+
+</div>
+
+<script src="/js/userOrder.js"></script>
+<!-- footer -->
+<th:block th:replace="/user_inc/footer :: footerFragment"></th:block>
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>

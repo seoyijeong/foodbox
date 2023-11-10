@@ -1,0 +1,372 @@
+/* 초기화 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* 컨텐츠 부분 전체 감싸기 */
+.user_register_wrap{
+    text-align: center;
+    padding-top: 200px;
+    justify-content: center;
+
+}
+
+/* 회원가입 가운데 정렬*/
+.user_register_form{
+    margin: 0 auto;
+}
+
+/* 회원가입 헤더부분 */
+.user_register_header{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* 회원가입 제목부분 */
+.user_register{
+    font-size: 30px;
+    font-weight: bold;
+    color: #424242;
+    margin-bottom: 30px;
+}
+
+/* 필수입력사항 글자 */
+.must_write{
+    margin-left: 550px;
+}
+
+.must_write01{
+    color: red;
+    font-size: 13px;
+}
+
+.must_write02{
+    color: #424242;
+    font-size: 13px;
+}
+
+/* 밑줄 */
+
+.register_line{
+    padding-bottom: 10px;
+    border-bottom: 2px solid #424242;
+    font-size: 12px;
+    color: #424242;
+    line-height: 17px;
+    width: 650px;
+    margin: 0 auto;
+}
+
+/* 회원가입 메인 */
+
+.user_register_form{
+    /*border: 1px solid green;*/
+    width: 600px;
+    margin: 20px auto;
+}
+
+.register_content_wrap{
+    width: 600px;
+    height: 80px;
+    display: flex;
+    margin: 0 auto;
+    /*border: 1px solid red;*/
+}
+
+
+.register_content01{
+    width: 20%;
+    height: 45px;
+    font-size: 14px;
+    font-weight: bold;
+    justify-content: center;
+    line-height:45px;
+}
+
+.must_write04{
+    color: red;
+}
+
+.register_content02{
+    width: 50%;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.content_box{
+    width: 320px;
+    height: 80px;
+    text-align: center;
+}
+
+.register_content_box{
+    width: 300px;
+    height: 45px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    padding: 0 11px 1px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.register_content03{
+    width: 20%;
+    height: 45px;
+    text-align: center;
+}
+
+.register_content_button{
+    width: 100px;
+    height: 45px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #f29a1a;
+    border: 1px solid #f29a1a;
+    font-weight: bold;
+    background-color: white;
+    padding: 0 11px 1px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.register_content_button2{
+    width: 100px;
+    height: 45px;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    border: 1px solid #ddd;
+    font-weight: bold;
+    background-color: white;
+    padding: 0 11px 1px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+
+/* 회원가입 버튼 */
+
+#register_button{
+    color: white;
+    background-color: #f29a1a;
+    border: #f29a1a;
+    font-weight: bold;
+}
+
+/* 주소 부분 감싸기 */
+.adress_wrap{
+    margin-top: 20px;
+}
+
+/* 모달 */
+
+.register_agree_wrap{
+    width: 600px;
+    /*border: 1px solid #6c801a;*/
+    display: flex;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.agree{
+    width: 600px;
+    /*border: 1px solid red;*/
+}
+
+#modalCloseButton {
+    cursor: pointer;
+    border: 1px solid #f29a1a;
+    background-color: #f29a1a;
+    font-size: 20px;
+    border-radius: 5px;
+    color: white;
+    width: 50px;
+    height: 40px;
+}
+
+#modalCloseButton2 {
+    cursor: pointer;
+    border: 1px solid #f29a1a;
+    background-color: #f29a1a;
+    font-size: 20px;
+    border-radius: 5px;
+    color: white;
+    width: 50px;
+    height: 40px;
+}
+
+.modal_title{
+    text-align: center;
+}
+
+.modal_close_button{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.modal_close_button2{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
+#modalOpenButton{
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 66px;
+}
+
+#modalOpenButton2{
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 14px;
+}
+
+#modalContainer {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    text-align: start;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+
+#modalContainer2 {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    text-align: start;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+#modalContent {
+    position: absolute;
+    background-color: #ffffff;
+    width: 300px;
+    height: 150px;
+    padding: 25px;
+}
+
+#modalContent2 {
+    position: absolute;
+    background-color: #ffffff;
+    width: 300px;
+    height: 150px;
+    padding: 25px;
+}
+
+#modalContainer.hidden {
+    display: none;
+}
+
+#modalContainer2.hidden {
+    display: none;
+}
+
+#modalContainer {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#modalContainer2 {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#modalContainer.hidden {
+    display: none;
+}
+
+#modalContainer2.hidden {
+    display: none;
+}
+
+
+#modalContent {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #f29a1a;
+    border-radius: 5px;
+    width: 400px;
+    height: 500px;
+    padding: 15px;
+}
+
+#modalContent2 {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #f29a1a;
+    border-radius: 5px;
+    width: 400px;
+    height: 500px;
+    padding: 15px;
+}
+
+.modal_check{
+    display: flex;
+    font-size: 14px;
+    margin-left: 42px;
+    margin-top: 15px;
+
+}
+
+.modal_checkBox{
+    margin-right: 10px;
+}
+
+.agree_01{
+    display: flex;
+    /*border: 1px solid #333333;*/
+}
+
+.modal_check02{
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.agree_02 {
+    /*border: 1px solid blueviolet;*/
+}
+
+.chkMsg{
+    color: red;
+    font-size: 11px;
+}
+
+
+

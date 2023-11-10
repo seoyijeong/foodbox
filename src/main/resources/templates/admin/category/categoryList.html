@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+<div class="container w-75 mt-3">
+    <h3 class="mt-3 text-center">카테고리 목록</h3>
+    <a href="/admin/categoryRegister" class="btn btn-success ms-auto mb-4">카테고리 등록</a>
+    <form id="frmTable" action="" method="post">
+        <table class="table table-bordered">
+            <thead class="table-secondary text-center">
+            <tr>
+                <th>카테고리 번호</th>
+                <th>카테고리 코드</th>
+                <th>카테고리 명</th>
+                <th>삭제</th>
+            </tr>
+
+            </thead>
+            <tbody class="text-center">
+            <th:block th:each="category : ${list}">
+                <tr>
+                    <td th:text="${category.category_no}"></td>
+                    <td><a th:text="${category.category_code}" th:href="@{/admin/categoryInfo(category_no=${category.category_no})}"></a></td>
+                    <td th:text="${category.category_name}"></td>
+                    <td><a class="btn btn-danger btn-sm" th:href="@{/admin/categoryDelete(category_no=${category.category_no})}">삭제</a></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </form>
+</div>
+<th:block th:replace="/admin/admin_bottom :: footerFragment"></th:block>
+</body>
+</html>

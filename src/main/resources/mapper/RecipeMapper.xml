@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupfour.foodbox.mapper.admin.RecipeMapper">
+
+    <!-- 전체 게시글 수 -->
+
+    <select id="totalCnt" resultType="Integer">
+        SELECT count(*) FROM recipeinfo
+        <include refid="criteria"></include>
+    </select>
+
+    <select id="getList" resultType="recipeDTO">
+        SELECT * FROM recipeinfo
+
+<!--      RCP_NM  like concat('%', #{RCP_NM}, '%')-->
+        <include refid="criteria"></include>
+            ORDER BY id DESC LIMIT #{pageDTO.startIndex}, #{pageDTO.cntPerPage}
+    </select>
+<!--    <select id="recipeSearch" resultType="recipeDTO">-->
+<!--        SELECT * FROM recipeinfo WHERE RCP_NM-->
+<!--        like concat('%', #{RCP_NM}, '%')-->
+<!--        ORDER BY id-->
+<!--        LIMIT #{pageDTO.startIndex}, #{pageDTO.cntPerPage}-->
+<!--        &lt;!&ndash;        <include refid="criteria"></include>&ndash;&gt;-->
+<!--    </select>-->
+<!--    -->
+    <select id="recipeInfo" resultType="recipeDTO">
+        SELECT * FROM recipeinfo WHERE id=#{id}
+    </select>
+
+    <select id="searchCnt" resultType="Integer">
+        SELECT count(*) FROM recipeinfo WHERE RCP_NM
+        like concat('%', #{RCP_NM}, '%')
+    </select>
+
+    <sql id="criteria">
+        <!-- 'S' 문자열 변환이 없으면 문자형(ascii)숫자로 인식
+            NumberFormat 예외발생, toString()
+        -->
+
+<!--        <if test="RCP_NM!='ALL'">-->
+        <if test="RCP_NM!=null">
+            WHERE RCP_NM LIKE CONCAT('%', #{RCP_NM}, '%')
+        </if>
+    </sql>
+
+</mapper>
+

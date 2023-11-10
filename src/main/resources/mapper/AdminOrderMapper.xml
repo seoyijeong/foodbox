@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.groupfour.foodbox.mapper.admin.AdminOrderMapper">
+
+    <select id="orderListCount" resultType="Integer">
+        SELECT count(*) FROM orderlist
+        WHERE 1=1
+    </select>
+
+    <select id="orderList" resultType="com.groupfour.foodbox.dto.AdminOrderDTO">
+        SELECT * FROM orderlist
+        ORDER BY order_no DESC LIMIT #{startIndex}, #{cntPerPage}
+    </select>
+
+    <select id="orderDetailCount" resultType="Integer">
+        SELECT count(*) FROM orderDetail
+        WHERE order_no = #{orderNo}
+    </select>
+
+    <select id="orderDetail" resultType="com.groupfour.foodbox.dto.AdminOrderDetailDTO">
+        SELECT * FROM orderDetail WHERE order_no = #{orderNo}
+        ORDER BY order_detail_no ASC LIMIT #{pageDTO.startIndex}, #{pageDTO.cntPerPage}
+    </select>
+
+    <update id="adminOrderDelete">
+        UPDATE orderdetail SET order_status = 'CANCLE' WHERE order_no = #{orderNo}
+    </update>
+
+    <update id="adminOrderListDelete">
+        UPDATE orderlist SET order_status = 'CANCLE' WHERE order_no = #{orderNo}
+    </update>
+
+    <select id="getOrderDetail" resultType="com.groupfour.foodbox.dto.AdminOrderDetailDTO">
+        SELECT * FROM orderDetail WHERE order_no = #{orderNo}
+    </select>
+
+    <update id="deleteOrder_qty">
+        UPDATE product SET prod_qty = #{prodQty} WHERE prod_code = #{prodCode}
+    </update>
+
+</mapper>

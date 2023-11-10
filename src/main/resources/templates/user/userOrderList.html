@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- header -->
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+
+<style>
+    .table>thead {
+        vertical-align: middle;
+    }
+    td {
+        word-break: break-all;
+    }
+</style>
+
+<div class="container" style="padding-top: 150px; height: 1000px">
+
+    <h4 class="w-100 mb-5 text-center">| 주 문 내 역 |</h4>
+    <table class="table table-bordered">
+        <thead class="table-secondary text-center">
+        <tr>
+            <th>주문번호</th>
+            <th>주문자 이름</th>
+            <th>주문상품</th>
+            <th>받는사람 이름</th>
+            <th>받는사람 전화번호</th>
+            <th>배송지 주소</th>
+            <th>주문합계</th>
+            <th>주문날짜</th>
+            <th>주문상태</th>
+            <th>주문취소</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:if="|${orderList==null || orderList.size() ==0}|">
+            <tr>
+                <td colspan="6">주문내역이 없습니다!!</td>
+            </tr>
+        </th:block>
+
+        <th:block th:if="|${orderList!=null || orderList.size() !=0}|">
+            <th:block th:each="dto : ${orderList}">
+                <tr>
+                    <td>
+                        <a th:href="@{/user/userOrder/orderdetail(order_no=${dto.order_no})}" th:text="${dto.order_no}" style="text-decoration: underline; display: block;"/>
+                    </td>
+
+                    <td th:text="${dto.user_name}"></td>
+
+                    <td>
+                        <a th:href="@{/user/userOrder/orderdetail(order_no=${dto.order_no})}" th:text="${dto.prod_name}" style="text-decoration: underline; display: block;"/>
+                    </td>
+
+                    <td th:text="${dto.receiver_name}"></td>
+
+                    <td th:text="${dto.receiver_tel}"></td>
+
+                    <td th:text="|${dto.user_zipcode} ${dto.user_roadaddr} ${dto.user_detailaddr}|"></td>
+
+                    <td th:text="${#numbers.formatInteger(dto.orderTotPrice, 0, 'COMMA') + '원'}">
+                    </td>
+
+
+
+                    <td th:text="${#temporals.format(dto.order_inputDate, 'YYYY-MM-dd HH:mm')}">
+                    </td>
+
+                    <td th:text="${dto.order_status.status}"></td>
+
+                    <td>
+                        <button class="btn btn-sm btn-danger" th:onclick="|orderCancle(${dto.order_no})|">주문취소</button>
+                    </td>
+                </tr>
+            </th:block>
+        </th:block>
+        </tbody>
+    </table>
+
+</div>
+
+<script src="/js/userOrder.js"></script>
+<!-- footer -->
+<th:block th:replace="/user_inc/footer :: footerFragment"></th:block>
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>

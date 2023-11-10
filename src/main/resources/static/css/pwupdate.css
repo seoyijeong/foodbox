@@ -1,0 +1,142 @@
+/* 비밀번호 재확인 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.userinfo_container {
+    width: 1200px;
+    margin: auto;
+}
+
+.userinfo_wrap {
+    padding-top: 10em;
+    width: 65%;
+    height: auto;
+    margin: auto;
+}
+
+.userinfo_title {
+    font-size: 24px;
+    font-weight: 600;
+    padding-bottom: 1.5em;
+    color: #333;
+}
+
+.userinfo_pwChk {
+    width: 100%;
+    height: auto;
+    /*padding-top: 5em;*/
+}
+
+.pwChk_text {
+    margin-bottom: 1.5em;
+}
+
+.pwChk_text p:first-child {
+    padding-bottom: 0.5em;
+    font-size: 18px;
+    font-weight: 550;
+    color: #333;
+}
+
+.pwChk_text p:nth-child(2) {
+    font-size: 12px;
+    color: #666666;
+    padding-bottom: 1.8em;
+    border-bottom: 1.4px solid #333;
+}
+
+.pwChk_box {
+    width: 30em;
+    margin: auto;
+}
+
+.username_box {
+    padding-bottom: 2.3em;
+}
+
+.label_box {
+    font-size: 14px;
+    font-weight: 550;
+    color: #333;
+    padding-top: 1em;
+}
+
+.pwChk_inner {
+    display: flex;
+    width: 30em;
+}
+
+.user_label {
+    padding-right: 5.3em;
+}
+
+.pw_label {
+    padding-right: 4.3em;
+}
+
+/*.new_pw_label {*/
+/*    padding-right: 30em;*/
+/*    width: 5em;*/
+/*}*/
+
+/*.pw_chk_label {*/
+/*    padding-right: 30em;*/
+/*    width: 7em;*/
+/*}*/
+
+.input_box {
+    width: 20em;
+}
+
+.info_input {
+    width: 23em;
+    height: 3.3em;
+    padding: 0 1em 0 1.5em;
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.userinfo_btn_box {
+    margin-top: 1.5em;
+    padding-top: 3.5em;
+    border-top: 1px solid #ddd;
+}
+
+.userinfo_btn {
+    width: 18em;
+    height: 3.8em;
+    border-radius: 4px;
+    border: 0px none;
+    background-color: #f29a1a;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn_inner {
+    text-align: center;
+}
+
+/* 비밀번호 변경 */
+
+.new_pw_label {
+    padding-right: 6.3em;
+}
+
+.new_pw_box {
+    width: 35em;
+}
+
+.new_pw_text {
+    border-bottom: 1.4px solid #333333;
+}
+
+.input_val {
+    padding: 0.5em 0 1em 11.8em;
+    color: #f03f40;
+    font-size: 13px;
+}

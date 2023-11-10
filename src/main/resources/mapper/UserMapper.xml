@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupfour.foodbox.mapper.admin.UserMapper">
+
+<!--    &lt;!&ndash;회원 리스트&ndash;&gt;-->
+<!--    <select id="userList">-->
+<!--        select user_no, user_name, user_id, user_pw, user_email, user_tel,-->
+<!--        user_gender, user_birthday, user_zipcode, user_roadaddr, user_detailaddr-->
+<!--        from user-->
+<!--    </select>-->
+
+    <select id="userCount" resultType="Integer">
+        SELECT count(*) FROM user
+        WHERE 1=1
+        <include refid="criteria"></include>
+    </select>
+
+    <!--회원 리스트-->
+    <select id="userList" resultType="userDTO">
+        SELECT * FROM user
+        WHERE 1=1
+        <include refid="criteria"></include>
+        ORDER BY user_no ASC LIMIT #{pageDTO.startIndex}, #{pageDTO.cntPerPage}
+    </select>
+    <sql id="criteria">
+        <if test="searchType != 'ALL'.toString()">
+            AND user_gender = #{searchType}
+        </if>
+
+        <if test="!keyword.equals('ALL')">
+            AND user_name LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+
+    </sql>
+
+    <!--회원 삭제-->
+    <delete id="userDelete">
+        delete from user
+        where user_no = #{user_no}
+    </delete>
+
+    <!--회원 선택 삭제-->
+    <delete id="usersDelete">
+        delete from user
+        <where>
+            <foreach item="item" index="index" collection="chkList" open="user_no in ("
+                     separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+
+    <!--회원 검색-->
+    <select id="userSearch" resultType="userDTO">
+        select user_no, user_name, user_id, user_pw, user_email, user_tel,
+        user_gender, user_birthday, user_zipcode, user_roadaddr, user_detailaddr
+        from user
+        where 1=1
+        <if test="user_name != 'all'">
+            and user_name like concat(#{user_name},'%')
+        </if>
+        <if test="user_gender != 'all'">
+            and user_gender = #{user_gender}
+        </if>
+    </select>
+
+    <!-- 회원 정보-->
+    <select id="userInfo" parameterType="Integer" resultType="userDTO">
+        SELECT * FROM user WHERE user_no = #{user_no}
+    </select>
+
+    <!-- 회원 수정-->
+    <update id="userModify" parameterType="userDTO">
+        UPDATE user SET user_name=#{user_name}, user_pw=#{user_pw}, user_email=#{user_email},
+        user_tel=#{user_tel}, user_roadaddr=#{user_roadaddr}, user_zipcode=#{user_zipcode}, user_detailaddr=#{user_detailaddr}
+        WHERE user_no=#{user_no}
+    </update>
+
+</mapper>

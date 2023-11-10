@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.groupfour.foodbox.mapper.admin.ProductMapper">
+    <insert parameterType="Map" id="adminProductRegister">
+        INSERT INTO product( prod_cat_code, prod_name, prod_brand, prod_madedate, prod_price,
+        prod_qty, prod_thumbnail, prod_comment, prod_country, prod_spec)
+        VALUES( #{prod_cat_code}, #{prod_name}, #{prod_brand}, #{prod_madedate}, #{prod_price},#{prod_qty}, #{prod_thumbnail},
+         #{prod_comment}, #{prod_country}, #{prod_spec})
+    </insert>
+
+    <insert id="adminProductImageRegister">
+        INSERT INTO product_image(image_prod_code, image_prod_image)VALUES((SELECT prod_code FROM product ORDER BY prod_code DESC LIMIT 1), #{image_prod_image})
+    </insert>
+    <insert id="adminProductImageModify">
+        INSERT INTO product_image(image_prod_code, image_prod_image)VALUES(#{prod_code}, #{image_prod_image})
+    </insert>
+    <select id="productCount" resultType="Integer">
+        SELECT count(*) FROM product
+        WHERE 1=1
+        <include refid="criteria"/>
+    </select>
+    <select id="productList" resultType="productDTO">
+        SELECT * FROM product
+        WHERE 1=1
+        <include refid="criteria"/>
+        ORDER BY prod_code DESC LIMIT #{pageDTO.startIndex}, #{pageDTO.cntPerPage}
+    </select>
+    <sql id="criteria">
+<!--        <if test="searchType== 'ALL'.toString() and keyword=='ALL'.toString()">-->
+<!--            WHERE 1=1-->
+<!--        </if>-->
+        <if test="searchType != 'ALL'.toString()">
+            AND prod_cat_code = #{searchType}
+        </if>
+
+        <if test="!keyword.equals('ALL')">
+            AND prod_name LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+
+    </sql>
+
+    <select id="productInfo" resultType="productDTO">
+        SELECT * FROM product WHERE prod_code=#{prod_code}
+    </select>
+    <select id="productImageList" resultType="productImageDTO">
+        SELECT * FROM product_image WHERE image_prod_code=#{prod_code} ORDER BY image_no ASC
+    </select>
+    <update id="adminProductModify">
+        UPDATE product SET prod_cat_code=#{prod_cat_code}, prod_name=#{prod_name}, prod_brand=#{prod_brand},
+        prod_madedate=#{prod_madedate}, prod_price=#{prod_price}, prod_qty=#{prod_qty}, prod_thumbnail=#{prod_thumbnail},
+        prod_comment=#{prod_comment}, prod_country=#{prod_country}, prod_spec=#{prod_spec}
+        WHERE prod_code=#{prod_code}
+    </update>
+    <delete id="productImageDelete">
+        DELETE FROM product_image WHERE image_prod_code=#{prod_code}
+    </delete>
+    <delete id="adminProductDelete">
+        DELETE FROM product WHERE prod_code=#{prod_code}
+    </delete>
+    <delete id="adminProductImageDelete">
+        DELETE FROM product_image WHERE image_prod_code=#{prod_code}
+    </delete>
+</mapper>

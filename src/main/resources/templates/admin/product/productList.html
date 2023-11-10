@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+<div class="container w-75 mt-3">
+    <h3 class="mt-3 text-center">상품 리스트</h3>
+    <a href="/admin/productRegister" class="btn btn-success mb-4">상품 등록</a>
+    <form action="/admin/productList" method="post">
+        <select id="searchType" name="searchType">
+            <option value="ALL">전체</option>
+            <option th:each="categoryDTO : ${categorylist}" th:value="${categoryDTO.category_code}">
+                [[${categoryDTO.category_name}]] [ [[${categoryDTO.category_code}]] ]</option>
+        </select>
+        <input type="text" id="keyword" name="keyword" placeholder="상품명">
+        <input class="btn btn-sm btn-warning" type="submit" value="상품검색">
+    </form>
+    <form id="frmTable" action="" method="post">
+        <table class="table table-bordered">
+            <thead class="table-secondary text-center">
+            <tr>
+                <th>상품 코드</th>
+                <th>상품 카테고리 코드</th>
+                <th>상품 이름</th>
+                <th>상품 회사</th>
+                <th>상품 수량</th>
+                <th>상품 가격</th>
+                <th>상품 등록일</th>
+                <th>삭제</th>
+            </tr>
+
+            </thead>
+            <tbody class="text-center">
+            <th:block th:each="productDTO : ${productList}">
+                <tr>
+                    <td  th:text="${productDTO.prod_code}"></td>
+                    <td th:text="${productDTO.prod_cat_code}"></td>
+                    <td ><a th:text="${productDTO.prod_name}" th:href="@{/admin/productInfo(prod_code=${productDTO.prod_code})}"></a></td>
+                    <td th:text="${productDTO.prod_brand}"></td>
+                    <td th:text="${productDTO.prod_qty}"></td>
+                    <td th:text="${productDTO.prod_price}"></td>
+                    <td th:text="${productDTO.prod_inputdate}"></td>
+                    <td><a class="btn btn-danger btn-sm" th:href="@{/admin/productDelete(prod_code=${productDTO.prod_code})}">삭제</a></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </form>
+</div>
+<ul class="pagination justify-content-center">
+    <li class="page-item" th:class="${pageDTO.prevPage<=0} ? 'disabled'">
+        <a class="page-link" th:href="@{/admin/productList(viewPage=${pageDTO.prevPage},keyword=${keyword},searchType=${searchType})}">이전</a>
+    </li>
+    <th:block th:each="i: ${#numbers.sequence(pageDTO.blockStart,pageDTO.blockEnd)}">
+        <th:block th:if="${i!=0}">
+            <li class="page-item" th:classappend="${pageDTO.viewPage == i? 'active':''}">
+                <a class="page-link" th:href="@{/admin/productList(viewPage=${i},keyword=${keyword},searchType=${searchType})}">[[${i}]]</a>
+            </li>
+        </th:block>
+    </th:block>
+    <li class="page-item"th:class="${pageDTO.blockEnd>=pageDTO.totalPage} ? 'disabled'">
+        <a class="page-link" th:href="@{/admin/productList(viewPage=${pageDTO.nextPage},keyword=${keyword},searchType=${searchType})}">다음</a>
+    </li>
+</ul>
+</body>
+</html>

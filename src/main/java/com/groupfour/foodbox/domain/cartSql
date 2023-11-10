@@ -1,0 +1,55 @@
+create table usercart (
+	cart_no int primary key auto_increment,
+	user_id varchar(50) not null,
+    prod_code int not null,
+    order_qty int not null
+);
+
+create table userorder (
+    order_no int primary key auto_increment,
+    user_id varchar(50) not null,
+    prod_code int not null,
+    order_qty int not null,
+    prod_thumbnail varchar(300) not null,
+    prod_name varchar(100) not null,
+    order_inputDate Date not null
+);
+
+create table orderlist (
+	order_no int primary key auto_increment,
+    order_status varchar(50),
+    user_id varchar(50),
+    user_name varchar(50),
+    prod_name varchar(200),
+    receiver_name varchar(50),
+    receiver_tel varchar(50),
+    user_zipcode varchar(100),
+    user_roadaddr varchar(100),
+    user_detailaddr varchar(100),
+    ordertotprice int,
+    order_inputDate datetime
+);
+
+create table orderdetail (
+	order_detail_no int primary key auto_increment,
+    order_status varchar(50),
+    order_no int,
+    user_id varchar(50),
+    user_name varchar(50),
+	receiver_name varchar(50),
+    receiver_tel varchar(50),
+	user_zipcode varchar(100),
+    user_roadaddr varchar(100),
+    user_detailaddr varchar(100),
+    prod_code int,
+    prod_name varchar(100),
+    prod_thumbnail varchar(300),
+    prod_price int,
+    prod_qty int,
+    order_qty int,
+    order_inputDate datetime,
+
+    constraint fk_order_no
+    FOREIGN key(order_no)
+    REFERENCES orderlist (order_no)
+);

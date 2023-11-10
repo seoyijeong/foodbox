@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+
+<div class="container w-50 shadow rounded border p-5 mt-5">
+  <form th:action="@{/admin/adminLogin}" method="post">
+  <h3 class="text-center mb-4">관리자 로그인</h3>
+    <th:block th:if="${session.adminLoginMsg != null}">
+      <p class="text-center text-danger" th:text="${session.adminLoginMsg}"></p>
+    </th:block>
+  <input class="form-control mb-3" type="text" id="admin_id" name="admin_id" placeholder="아이디"/>
+  <input class="form-control mb-2" type="text" id="admin_pw" name="admin_pw" placeholder="비밀번호"/>
+
+  <div class="text-center pt-4">
+    <input type="submit" class="btn btn-primary w-100" value="로그인"/>
+  </div>
+  </form>
+</div>
+
+<th:block th:replace="/admin/admin_bottom :: footerFragment"></th:block>
+</body>
+</html>

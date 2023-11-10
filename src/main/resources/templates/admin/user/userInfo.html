@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="/admin/inc/admin_header :: headerFragment"></th:block>
+<script src="/js/zipcode.js"></script>
+<!-- 본문 -->
+<div class="container w-50 mt-5">
+  <!-- 뒤로가기버튼(목록으로 이동) -->
+  <a href="javascript:history.back();"><i class="fa fa-arrow-left" style="color:black;"></i></a>
+  <!-- 수정버튼 클릭시 회원 정보 수정 -->
+    <form action="/admin/userModify" method="post">
+    <table class='table table-borderless'>
+      <thead>
+      <th colspan='2'>
+        <!-- 테이블 head -->
+        <h3 class='text-center'>회원 정보</h3>
+      </th>
+      </thead>
+      <!-- 테이블 내용 -->
+      <tr>
+        <td>회원번호</td>
+        <!-- 각칼럼에 해당하는 값 -->
+        <td><input class='form-control' type='text' name="user_no" th:value="${userDto.user_no}" readonly/></td>
+      </tr>
+      <tr>
+        <td>아이디</td>
+        <td><input class='form-control' type='text' name="user_id" th:value="${userDto.user_id}" readonly/></td>
+      </tr>
+      <tr>
+        <td>비밀번호</td>
+        <td><input class='form-control' type='text' name="user_pw" th:value="${userDto.user_pw}"></td>
+      </tr>
+      <tr>
+        <td>이름</td>
+        <td><input class='form-control' type='text' name="user_name" th:value="${userDto.user_name}"></td>
+      </tr>
+      <tr>
+        <td>전화번호</td>
+        <td><input class='form-control' type='text' name="user_tel" th:value="${userDto.user_tel}"></td>
+      </tr>
+      <tr>
+        <td>성별</td>
+        <td><input class='form-control' type='text' name="user_gender" th:value="${userDto.user_gender}" readonly/></td>
+      </tr>
+      <tr>
+        <td>생년월일</td>
+        <td><input class='form-control' type='text' name="user_birthday" th:value="${userDto.user_birthday}" readonly/></td>
+      </tr>
+      <tr>
+        <td>이메일</td>
+        <td><input class='form-control' type='text' name="user_email" th:value="${userDto.user_email}"></td>
+      </tr>
+      <tr>
+        <td>우편번호</td>
+        <td><input class='form-control' type='text' name="user_zipcode" id="sample4_postcode" th:value="${userDto.user_zipcode}"></td>
+        <td><input class='btn btn-sm btn-outline-success m-1' type="button" onclick="sample4_execDaumPostcode()" value="주소검색"/></td>
+      </tr>
+      <tr>
+        <td>주소</td>
+        <td><input class='form-control' type='text' name="user_roadaddr" id="sample4_roadAddress" th:value="${userDto.user_roadaddr}"></td>
+      </tr>
+      <tr>
+        <td>상세 주소</td>
+        <td><input class='form-control' type='text' name="user_detailaddr" id="user_detailaddr" th:value="${userDto.user_detailaddr}"></td>
+      </tr>
+
+    </table>
+      <input type='submit' value='수정' class='btn btn-sm btn-outline-success m-1'>
+      <input type='reset' value='취소' class='btn btn-sm btn-outline-warning m-1'>
+  </form>
+</div>
+<!-- 주소찾기 API-->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+</body>
+</html>

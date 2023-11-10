@@ -1,0 +1,112 @@
+/* 초기화 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+    color: #333;
+}
+
+li {
+    list-style: none;
+}
+
+
+/* header */
+
+.header {
+    background-color: #fff;
+    width: 100%;
+    z-index: 99;
+}
+
+.header__fixed {
+    background-color: #fff;
+    /*position: fixed;*/
+}
+
+.gnb a:hover{
+    color: #6c801a;
+}
+
+.wrap {
+    width: 1520px;
+    display: flex;
+    margin: auto;
+    padding: 1.3em;
+    /*border: 1px solid #000;*/
+}
+
+.header_innerbox1 {
+    display: flex;
+    /* border: 1px solid #000; */
+}
+
+.gnb {
+    margin-right: 4.5em;
+    padding-top: 0.5em;
+}
+
+.gnb__menu {
+    display: flex;
+    /* justify-content: space-around; */
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.gnb__store {
+    padding-left: 2em;
+}
+
+.main_menu {
+    padding-right: 3em;
+    margin-top: 0.3em;
+}
+
+.submenu {
+    padding: 3em 1.3em 1.3em 1.3em;
+    background-color: #fff;
+    /* font-weight: 550; */
+    display: none;
+    font-size: 15px;
+}
+
+.submenu li {
+    padding: 0.3em 0;
+}
+
+.header_innerbox2 {
+    display: flex;
+    margin-left: 20em;
+    margin-top: 0.7em;
+     /*border: 1px solid #000;*/
+}
+
+.inner_right {
+    padding-left: 1.5em;
+}
+
+.gnb__store:hover .store__submenu {
+    display: block;
+    position: absolute;
+}
+
+.mypage_dropdown:hover .mypage__submenu {
+    display: block;
+    position: absolute;
+}
+
+.login__dropdown:hover .login__submenu {
+    display: block;
+    position: absolute;
+}
+
+.admin_title {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}

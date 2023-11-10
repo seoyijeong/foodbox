@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
+
+<!-- Card -->
+<div class="card me-5 mb-3" style="width:300px; border:none; height:300px;">
+    <a th:href="@{/user/recipeView(id=${recipeDTO.id})}" style="height:160px; overflow:hidden;">
+        <img class="card-image" th:src="@{${recipeDTO.ATT_FILE_NO_MAIN}}" alt="Card image" style="width:100%;">
+    </a>
+    <div class="card-body text-center m-0 p-0">
+            <h7 class="mt-3" style= "font-size:15px;"><b th:text="${recipeDTO.RCP_NM}"></b></h7>
+            <th:block th:if="${recipeDTO.HASH_TAG!=''}">
+                <p th:text="'&#35;'+ ${recipeDTO.HASH_TAG}"></p>
+            </th:block>
+        <p th:text="'&lbrack;'+${recipeDTO.RCP_PAT2}+'/'+${recipeDTO.RCP_WAY2}+'&rbrack;'"></p>
+        <p class="card-text" style="color:darkgray;" th:text="'열랑 : '+${recipeDTO.INFO_ENG}"></p>
+    </div>
+    <div class="on_mouse"><a th:href="@{/user/recipeView(id=${recipeDTO.id})}"></a></div>
+</div>
+<th:block th:if="${(recipeCnt.count%4==0)&&(recipeCnt!=recipeList.size())}">
+    </div>
+    <div class="d-flex mt-3 w-100">
+</th:block>

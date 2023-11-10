@@ -1,0 +1,48 @@
+
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+
+<div class="userinfo_container">
+    <div class="userinfo_wrap">
+        <p class="userinfo_title">개인 정보 수정</p>
+        <div class="userinfo_pwChk">
+            <div class="pwChk_text new_pw_text">
+                <p>비밀번호 변경</p>
+            </div>
+<!--            <form class="userinfo_input" id="formData" name="pwUpdata_input" th:action="@{/user/user_pwModify}" method="post">-->
+                <div class="pwChk_box new_pw_box">
+                    <div class="pwChk_inner">
+                        <div class="label_box user_label new_pw_label">
+                            <label for="new_pw">새 비밀번호</label>
+                        </div>
+                        <div class="input_box">
+                            <input type="password" id="new_pw" name="user_pw" class="info_input"  maxlength="20" placeholder="새 비밀번호를 입력해주세요" onkeyup="inputNewPw()"/>
+<!--                            <input type="password" id="new_pw" name="user_pw" class="info_input"  maxlength="20" placeholder="새 비밀번호를 입력해주세요"/>-->
+                        </div>
+                    </div>
+                        <div class="input_val validation_input_name">
+                            <p class="validation_text" id="newPwMsg"></p>
+                        </div>
+                    <div class="userpw_box pwChk_inner">
+                        <div class="label_box pw_label pw_chk_label">
+                            <label for="new_pw_chk">새 비밀번호 확인</label>
+                        </div>
+                        <div class="input_box">
+                            <input type="password" id="new_pw_chk" class="info_input" maxlength="20" onkeyup="inputNewPwChk()" placeholder="동일한 비밀번호를 입력해주세요" />
+                        </div>
+                    </div>
+                        <div class="input_val validation_input_name">
+                            <p class="validation_text" id="checkPwMsg"></p>
+                        </div>
+                </div>
+                <div class="userinfo_btn_box">
+                    <div class="btn_inner">
+                        <button type="button" class="userinfo_btn" id="pwModifyBtn" th:onclick="pwModifyBtn([[${session.userLoginDto.user_id}]])">비밀번호 변경</button>
+                    </div>
+                </div>
+<!--            </form>-->
+        </div>
+    </div>
+</div>
+
+<!--<th:block th:replace="/user_inc/footer :: footerFragment"></th:block>-->
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>

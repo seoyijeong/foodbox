@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="/user_inc/header :: headerFragment"></th:block>
+<style>
+    .container{
+        width:1200px;
+    }
+    .goCart:hover{
+             border-color: black;
+             background-color:#f29a1a;
+             color:white;
+         }
+    .dirBuy:hover{
+         border-color:#f29a1a;
+         background-color:white;
+         color:black;
+    }
+
+    .info:hover{
+        color:#f29a1a;
+        cursor:pointer;
+    }
+    .review a:hover{
+        color:#f29a1a;
+        cursor:pointer;
+    }
+    #reviewRegisterBtn:hover{
+         background-color:#f29a1a;
+         color:white;
+     }
+</style>
+<div class="container d-flex col-6" style="padding-top:150px;">
+    <div class="me-3 col">
+        <img th:src="@{/image/}+${productDTO.prod_thumbnail}" alt="Card image" style="width:700px;">
+    </div>
+    <div>
+      <p class="m-3 col" th:text="${productDTO.prod_comment}"></p>
+        <h4 class="m-3" th:text="&lbrack;+${productDTO.getProd_brand()}+&rbrack;+' '+${productDTO.prod_name}"></h4>
+        <br>
+        <br>
+        <br>
+        <h3 class="m-3 text-end" id="prod_price" th:text="${productDTO.prod_price}"></h3>
+        <hr class="m-3">
+        <div class="d-flex w-100 col-6">
+            <h7 class="m-2" style="width:70px;" th:text="배송"></h7>
+            <p class="m-2">5만원이상 구매시 무료배송</p>
+        </div>
+        <div class="d-flex w-100 col-6">
+            <h7 class="m-2" style="width:70px;" th:text="원산지"></h7>
+            <p class="m-2" th:text="${productDTO.prod_country}"></p>
+        </div>
+        <div class="d-flex w-100 col-6">
+            <h7 class="m-2" style="width:70px;" th:text="제조사"></h7>
+            <p class="m-2" th:text="${productDTO.prod_brand}"></p>
+        </div>
+        <div class="d-flex w-100 m-2 col-6 align-items-center" id="productRating">
+
+        </div>
+        <div class="d-flex w-100 m-2 justify-content-end">
+            <input type='button' value='-' class='btn rounded-circle btn-outline-secondary m-1' onclick = "minusQty()" style="width:40px;">
+            <input class="text-center border-0" type="text" name="order_qty" id="order_qty" size="3" value="1"/><br/>
+            <input type='button' value='+' class='btn rounded-circle btn-outline-secondary m-1' onclick = "plusQty()" style="width:40px;">
+        </div>
+        <div class="d-flex justify-content-center" style="margin-top:40px;">
+            <input type='button' value='장바구니' class='btn cart btn-lg p-2' style="border-color:#f29a1a; margin-right:60px; width:150px;" th:onclick = "|userCartObject.insertCart(${productDTO.prod_code})|">
+            <input type='button' value='바로구매' class='btn direct btn-lg p-2' style="color:white; background-color:#f29a1a; width:150px;" th:onclick = "|userFastOrder.insertOrder(${productDTO.prod_code})|">
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<div class="container d-flex mt-5 align-items-end">
+    <h3 class="info me-4">상세정보</h3>
+    <h4 class="review center-block"><a href="#replyTextInput">리뷰</a></h4>
+</div>
+<th:block th:if="${productImageList.size()!=0}">
+<div class="container d-flex flex-column mt-4" id="productImage" style="height:800px; overflow:hidden;">
+    <th:block th:each="productImage : ${productImageList}" class="m-0 p-0">
+        <img th:src="@{/image/}+${productImage}" alt="Card image" style="width:800px;">
+    </th:block>
+</div>
+<div class="container mb-5">
+    <div id="infoShow">
+        <input type="button" class="btn p-3" id="productShowBtn" value="상품정보 더보기" onclick="productInfoShow()"
+               style="border:none; width:800px; background-color: #f29a1a; color:white; font-size:2em;">
+    </div>
+    <div id="infoHide" style="width:800px; display:none;">
+        <hr class="mt-3">
+        <h3 class="text-center" onclick="productInfoHide()" style="cursor:pointer;">접기</h3>
+    </div>
+</div>
+</th:block>
+<!--댓글등록-->
+<hr class="container mt-3">
+<div class="container mt-3 mb-3" id="replyTextInput">
+
+    <textarea class="w-100 p-2" id="reply_content" name="reply_content" onclick="replyLoginCheck()"
+              th:placeholder="${session.userLoginDto?.user_id==null?'로그인 후 작성가능합니다':'상품리뷰를 작성하세요'}"></textarea>
+    <div class="d-flex justify-content-end m-3">
+        <th:block th:if="${session.userLoginDto?.user_id!=null}" class="d-flex">
+            <select id="reply_rating" name="reply_rating">
+                <option value="0">별점</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </th:block>
+        <input type="button" id="reviewRegisterBtn" class="btn btn-lg p-2 ms-3"
+               style="border-color:#f29a1a; color:black;" value="상품리뷰 등록">
+    </div>
+    <hr class="mt-3">
+</div>
+<div class="container mt-3 mb-3" id="replyArea">
+
+</div>
+
+    <ul class="pagination justify-content-center my-5">
+    </ul>
+<script>
+    //댓글 로그인 체크
+    function replyLoginCheck(){
+        if([[${session.userLoginDto?.user_id==null}]]){
+            alert("로그인이 필요한 서비스입니다");
+            return;
+        }
+    }
+    function minusQty(){
+        let orderQty = Number($("#order_qty").val())-1;
+        document.getElementById("order_qty").value=orderQty;
+        if(orderQty==0){
+            alert("1개 미만으로 담을 수 없습니다.");
+           document.getElementById("order_qty").value=1;
+        }
+    }
+    function plusQty(){
+        let orderQty = Number($("#order_qty").val())+1;
+        document.getElementById("order_qty").value=orderQty;
+    }
+    function productInfoShow(){
+        document.getElementById("productImage").style.overflow="visible";
+        document.getElementById("productShowBtn").style.display="none";
+        document.getElementById("infoHide").style.display="block";
+        document.getElementById("productImage").style.height="100%";
+    }
+    function productInfoHide(){
+        document.getElementById("productImage").style.overflow="hidden";
+        document.getElementById("productShowBtn").style.display="block";
+        document.getElementById("infoHide").style.display="none";
+        document.getElementById("productImage").style.height="800px";
+    }
+    $(document).ready(function() {
+        let reply_prod_code = [[${productDTO.prod_code}]]
+        let reply_user_id = "[[${session.userLoginDto?.user_id}]]";
+        let replyArea = $("#replyArea");//댓글 영역 해당 객체
+        let viewPage = 1;
+        let reviewRegisterBtn = $('#reviewRegisterBtn');
+        // var reply_content = $('#reply_content');
+        let reply_content = document.getElementById('reply_content');
+        displayList(viewPage);
+
+        function displayList(viewPage) {
+            let str = "";
+
+            $.ajax({
+                url: "/user/productReply/" + reply_prod_code + '/' + viewPage,
+                type: "get",
+                success: (replyPageDTO) => {
+                    let productReplyList = replyPageDTO.list;
+                    let ratingAverage = 0;
+                    // console.log(productReplyList);
+                    //댓글이 있는 경우
+                    for (let i = 0; i < productReplyList.length; i++) {
+
+                        str += '<div class="form-control bd-1 mb-2">'
+                            + '<div class="d-flex justify-content-between">'
+                            + '<h6>' + productReplyList[i].reply_user_id + '</h6>'
+                            + '<div><span  class="me-2" value="">' + productReplyList[i].reply_date + '</span>'
+                            + '<span class="me-2" style="cursor:pointer;">';
+                            if(productReplyList[i].reply_user_id==reply_user_id) {
+                                str += '<a style="color:#f29a1a;" href="/user/prodReplyDelete/' + productReplyList[i].reply_no + '/' + reply_prod_code + '">'
+                                    + '<i  class="fa fa-trash"></i></a>';
+                            }
+                            str+= '</span></div></div><p class="p-2">' + productReplyList[i].reply_content + '</p>'
+                            + '<div class="d-flex">';
+                        if (productReplyList[i].reply_rating != 0) {
+                            for (let starcount = 0; starcount < productReplyList[i].reply_rating; starcount++) {
+                                str += '<p style="color:#f29a1a;">&#9733;</p>';
+                            }
+                        }
+                        if (productReplyList[i].reply_rating != 5) {
+                            for (let starcount = productReplyList[i].reply_rating; starcount < 5; starcount++) {
+                                str += '<p style="color:#f29a1a;">&#9734;</p>';
+                            }
+                        }
+                        str += '</div></div>';
+                    }
+
+                    if(replyPageDTO.productRatingSum==0) ratingAverage = 0;
+                    else ratingAverage = replyPageDTO.productRatingSum/replyPageDTO.totalCnt;
+
+                    let ratingStr = '';
+                    if (Math.round(ratingAverage)!= 0) {
+                        for (let starcount = 0; starcount < Math.round(ratingAverage); starcount++) {
+                            ratingStr += '<h5 style="color:#f29a1a;">&#9733;</h5>';
+                        }
+                    }
+                    if (Math.round(ratingAverage)!= 5) {
+                        for (let starcount = Math.round(ratingAverage); starcount < 5; starcount++) {
+                            ratingStr += '<h5 style="color:#f29a1a;">&#9734;</h5>';
+                        }
+                    }
+                    ratingStr+='<h4 class="ms-3" style="color:#f29a1a;">&#9733;</h4><h6>'+ratingAverage+'</h6>';
+                    replyArea.html(str);
+                    $('#productRating').html(ratingStr);
+                    showPgNavi(replyPageDTO);
+                },
+                error: () => {
+                    alert("요청실패")
+                }
+
+
+            });
+        }
+
+
+        //////////pageNation 처리///////////
+        let pageArea = $(".pagination");
+
+        function showPgNavi(replyPageDTO){
+            let prevPage = replyPageDTO.prevPage;
+            let nextPage = replyPageDTO.nextPage;
+            let blockStart = replyPageDTO.blockStart;
+            let blockEnd = replyPageDTO.blockEnd;
+
+            let totalPage = replyPageDTO.totalPage;
+            let viewPage = replyPageDTO.viewPage;
+
+            let str = "";
+
+            if(prevPage){
+                str +='<li class="page-item"> '
+                    + '<a class="page-link" href="'+prevPage+'">이전</a>'
+                    + '</li>';
+            }
+            for(let i = blockStart; i<=blockEnd; i++){
+                let active = viewPage==i?"active": "";
+                str+='<li class="page-item '+active+'">'
+                    +'<a class="page-link" href="'+i+'">'+i+'</a>'
+                    +'</li>';
+            }
+
+            if(blockEnd<totalPage){
+                str+= '<li class="page-item">'
+                    + '<a class="page-link" href="'+nextPage+'">다음</a>'
+                    +'</li>';
+            }
+            pageArea.html(str);
+
+        }//showPgNavi
+        pageArea.on("click", "li a", function(e){
+            e.preventDefault();
+            let targetPage = $(this).attr("href");
+            viewPage = targetPage;
+            displayList(viewPage);
+        });
+
+        //댓글 등록
+        reviewRegisterBtn.on("click", () => {
+            if([[${session.userLoginDto?.user_id==null}]]){
+                alert("로그인이 필요한 서비스입니다");
+                return;
+            }
+            if (reply_content.value == null || reply_content.value.trim() == "") {
+                alert(reply_content.value);
+                alert("리뷰를 입력하세요");
+                reply_content.focus();
+                return;
+            }
+            let reply = {
+                reply_user_id: reply_user_id, reply_content: reply_content.value,
+                reply_prod_code: reply_prod_code, reply_rating: $('#reply_rating').val()
+            };
+
+            $.ajax({
+                url: "/user/prodReplyRegister",
+                type: "post",
+                data: JSON.stringify(reply), // JSON객체를 문자열(텍스트) 변환
+                contentType: "application/json; charset=utf8",
+                success: function (result) {
+                    if (result == "ok") {
+                        location.href = "/user/productView?prod_code=" + reply_prod_code;
+                    } else {
+                        alert("등록실패")
+                    }
+                },
+                error: () => {
+                    alert("요청을 실패하였습니다")
+                }
+            });
+        });
+    });
+
+</script>
+<script src="/js/userCart.js"></script>
+</body>
+</html>
+
+<th:block th:replace="/user_inc/footer :: scriptFragment"></th:block>

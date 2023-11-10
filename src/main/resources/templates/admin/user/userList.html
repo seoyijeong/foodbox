@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<style>
+    td {word-break:break-all;word-wrap:break-word;}
+</style>
+<!-- 헤더 -->
+<th:block th:replace="/admin/admin_header :: headerFragment"></th:block>
+<div class="container w-75 mt-5">
+    <h3>회원 리스트</h3>
+    <!-- 회원 검색 기능-->
+    <form action="/admin/userList" method="post">
+        <select id="searchType" name="searchType">
+            <option value="ALL">전체</option>
+            <option value="남자">남</option>
+            <option value="여자">여</option>
+        </select>
+        <input type="text" id="keyword" name="keyword" placeholder="회원이름">
+        <input class="btn btn-sm btn-warning" type="submit" value="회원검색">
+    </form>
+<!--    <form action="/admin/userSearch" method="post">-->
+<!--        <input type="text" id="user_name" name="user_name" placeholder="회원이름">-->
+
+<!--        <select id="user_gender" name="user_gender">-->
+<!--            <option value="ALL">전체</option>-->
+<!--            <option value="남자">남</option>-->
+<!--            <option value="여자">여</option>-->
+<!--        </select>-->
+<!--        <input class="btn btn-sm btn-warning" type="submit" value="검색">-->
+<!--    </form>-->
+<!--회원 리스트 부분-->
+    <form id="frmTable">
+    <table width="100px" class="table table-bordered">
+        <thead class="table-secondary">
+        <tr class="text-center">
+            <th width="5%">선택</th>
+            <th width="9%">회원번호</th>
+            <th width="8%">아이디</th>
+            <th width="7%">비밀번호</th>
+            <th width="7%">이름</th>
+            <th width="8%">성별</th>
+            <th width="12%">생년월일</th>
+            <th>이메일</th>
+            <th width="8%">우편번호</th>
+            <th width="10%">도로명주소</th>
+            <th width="9%">상세주소</th>
+            <th width="6%">삭제</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <th:block th:each="userList : ${userList}">
+
+            <tr>
+                <td>
+                <input type="checkbox" name="chkUno" th:value="${userList.user_no}">
+                </td>
+                <td width="5%" th:text="${userList.user_no}"></td>
+                <td width="9%"><a th:text="${userList.user_id}" th:href="@{/admin/userInfo(user_no=${userList.user_no})}"></a></td>
+                <td width="8%" th:text="${userList.user_pw}"></td>
+                <td width="7%" th:text="${userList.user_name}"></td>
+                <td width="8%" th:text="${userList.user_gender}"></td>
+                <td width="12%" th:text="${userList.user_birthday}"></td>
+                <td th:text="${userList.user_email}"></td>
+                <td width="8%" th:text="${userList.user_zipcode}"></td>
+                <td width="10%"th:text="${userList.user_roadaddr}"></td>
+                <td width="6%"th:text="${userList.user_detailaddr}"></td>
+
+                <td>
+                    <a class="btn btn-sm btn-danger" th:href="@{/admin/userDelete(user_no=${userList.user_no})}">삭제</a>
+                </td>
+
+            </tr>
+
+        </th:block>
+        </tbody>
+    </table>
+    </form>
+<!--선택 삭제-->
+    <button class="btn btn-danger" type="button" onclick="onDelete()">선택 삭제</button>
+</div>
+
+
+
+<!-- 페이지 네이션-->
+<ul class="pagination justify-content-center">
+    <li class="page-item" th:class="${pageDTO.prevPage<=0} ? 'disabled'">
+        <a class="page-link" th:href="@{/admin/userList(viewPage=${pageDTO.prevPage},keyword=${keyword},searchType=${searchType})}">이전</a>
+    </li>
+    <th:block th:each="i: ${#numbers.sequence(pageDTO.blockStart,pageDTO.blockEnd)}">
+        <li class="page-item ${pageDTO.viewPage == i ? 'active':''}">
+            <a class="page-link" th:href="@{/admin/userList(viewPage=${i},keyword=${keyword},searchType=${searchType})}">[[${i}]]</a>
+        </li>
+    </th:block>
+    <li class="page-item"th:class="${pageDTO.blockEnd>=pageDTO.totalPage} ? 'disabled'">
+        <a class="page-link" th:href="@{/admin/userList(viewPage=${pageDTO.nextPage},keyword=${keyword},searchType=${searchType})}">다음</a>
+    </li>
+</ul>
+
+
+
+<!-- 회원 선택 삭제 시 체크 안하고 삭제 누르면 alert 뜸 -->
+
+<script>
+    let frm = document.getElementById("frmTable");
+
+function onDelete() {
+        let chkBoxes = document.getElementsByName("chkUno");
+        frm.setAttribute("action", "/admin/usersDelete");
+
+        let cnt = 0;
+        for (let chk of chkBoxes) {
+        if (chk.checked) { // 체크되어 있으면 true, 아니면 false 리턴
+        cnt++;
+    }
+}
+    if (cnt == 0) {
+    alert("삭제할 회원을 체크하세요!!");
+    return;
+}
+
+    frm.submit();
+}
+</script>
+
+
+
+<!-- 푸터 -->
+<th:block th:replace="/admin/admin_bottom :: footerFragment"></th:block>
+</body>
+</html>
